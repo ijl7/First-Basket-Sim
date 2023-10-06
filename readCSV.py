@@ -1,7 +1,7 @@
 import csv
 #import scraper
 
-i = 21800001
+i = 21800002
 with open('2022\\' + str(i) + '.csv', mode='r') as file:
     csvFile = csv.DictReader(file)
 
