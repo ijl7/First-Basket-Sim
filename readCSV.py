@@ -2,7 +2,7 @@ import csv
 #import scraper
 
 i = 21800001
-with open('C:\\Users\\isaac\\' + str(i) + '.csv', mode='r') as file:
+with open('2022\\' + str(i) + '.csv', mode='r') as file:
     csvFile = csv.DictReader(file)
 
     columnNames = []
