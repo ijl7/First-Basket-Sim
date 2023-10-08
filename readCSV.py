@@ -10,6 +10,11 @@ while i < 22201230:
             columnNames = []
 
             for row in csvFile:
+                if "10" == row['eventmsgtype']:
+                    print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
+                    break
+
+            for row in csvFile:
                 if "1" == row['eventmsgtype']:
                     print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
                     break
