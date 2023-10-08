@@ -1,5 +1,8 @@
 import nba_scraper.nba_scraper as ns
 
-nba_df = ns.scrape_game([21800002, 21800003])
+i = 22200714
+while i < 22201231:
+    nba_df = ns.scrape_game([i])
 
-ns.scrape_game([21800002, 21800003], data_format='csv', data_dir="2022")
+    ns.scrape_game([i], data_format='csv', data_dir="2022")
+    i += 1
