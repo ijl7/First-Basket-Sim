@@ -129,7 +129,7 @@ for key in teamLineups.keys():
 file.close()
 
 file = open('firstBasketChart.txt', 'w')
-file.write('Player\t\t\t\t\t\t|\tSt.\t|\tFirst Baskets\n')
+file.write('Player\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
 for player in playerStarts:
     #weird tab formatting
     file.write(player)
@@ -137,5 +137,5 @@ for player in playerStarts:
     while i > math.trunc(len(player)/4):
         file.write('\t')
         i -= 1
-    file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerStarts[player], 3)) + '\n')
 file.close()
