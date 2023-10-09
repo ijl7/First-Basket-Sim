@@ -1,5 +1,6 @@
 import csv
 import math
+import random
 #import scraper
 
 i = 22200001
@@ -67,7 +68,7 @@ while i < 22201230:
                         None
                     else:
                         teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
-                    print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
+                    #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
                     player1Team = row['player1_team_abbreviation']
                     player1Name = row['player1_name']
                     player2Team = row['player2_team_abbreviation']
@@ -103,11 +104,9 @@ while i < 22201230:
 
             for row in csvFile:
                 if "1" == row['eventmsgtype']:
-                    print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
+                    #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
                     firstBaskets[row['player1_name']] += 1
                     break
-                    
-
     i += 1
 
 def sortDicts(tipWin, teamLineups, playerTeam):
@@ -122,7 +121,6 @@ def sortDicts(tipWin, teamLineups, playerTeam):
 
 
 def writeTipWinChart():
-    print('here')
     file = open('tipWinChart.txt', 'w')
     file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
     lastKey = ''
@@ -163,8 +161,48 @@ def writeFBChart():
             i -= 1
         file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerStarts[player], 3)) + '\n')
     file.close()
+
+def predictTipWin():
+    p1 = input('Who is jumping for the ball?\n')
+    p2 = input()
+    p1Percent = 0.0
+    p2Percent = 0.0
+    lastKey = ''
+    for key in tipWin.keys():
+        playerName = key[4:len(key)-4]
+        #if player win hasnt been recorded yet
+        if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
+            if p1 == playerName:
+                p1Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)
+            if p2 == playerName:
+                p2Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)
+        lastKey = key
+    data = []
+    winner = 0
+    for i in range(1000000):
+        p1Tip = round(random.uniform(p1Percent-.3, p1Percent+.3), 3)
+        p2Tip = round(random.uniform(p2Percent-.3, p2Percent+.3), 3)
+        if p1Tip > p2Tip:
+            winner = 1
+        else:
+            winner = 2
+        data.append({'Player': winner})
+    p1Count = 0
+    p2Count = 0
+    for sim in data:
+        if sim['Player'] == 1:
+            p1Count += 1
+        else:
+            p2Count += 1
+    print(p1 + ' won the tip ' + str(p1Count) + ' times.')
+    print(p2 + ' won the tip ' + str(p2Count) + ' times.')
+    print('This gives ' + p1 + ' a ' + str(p1Count/10000) + '% chance to win the tip.')
+    print('This gives ' + p2 + ' a ' + str(p2Count/10000) + '% chance to win the tip.')
     
+    
+
 (tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
 writeTipWinChart()
 writeLineupChart()
 writeFBChart()
+predictTipWin()
