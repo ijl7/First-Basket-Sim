@@ -4,6 +4,7 @@ import csv
 i = 22200001
 playerTeam = {}
 tipWin = {}
+teamLineups = {}
 while i < 22201230:
     if i != 22200674 and i != 22200714:
         with open('2022\\' + str(i) + '.csv', mode='r') as file:
@@ -11,6 +12,8 @@ while i < 22201230:
 
             homeLineup = []
             awayLineup = []
+            homeTuple = ()
+            awayTuple = ()
 
             
             for row in csvFile:
@@ -25,8 +28,7 @@ while i < 22201230:
                     awayLineup.append(row['away_player_3'])
                     awayLineup.append(row['away_player_4'])
                     awayLineup.append(row['away_player_5'])
-                    print(homeLineup)
-                    print(awayLineup)
+                    #add all players with their team
                     for player in homeLineup:
                         if playerTeam.__contains__(player):
                             None
@@ -36,7 +38,18 @@ while i < 22201230:
                         if playerTeam.__contains__(player):
                             None
                         else:
-                            playerTeam.__setitem__(player, row['away_team_abbrev'])       
+                            playerTeam.__setitem__(player, row['away_team_abbrev'])
+                    #add all team lineups
+                    homeTuple = tuple(homeLineup)
+                    print(homeTuple)
+                    if teamLineups.__contains__(homeTuple):
+                        None
+                    else:
+                        teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
+                    if teamLineups.__contains__(awayTuple):
+                        None
+                    else:
+                        teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
                     print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
                     homeWin = tipWin.__contains__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win')
                     homeLoss = tipWin.__contains__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss')
@@ -76,21 +89,25 @@ tipKeys = list(tipWin.keys())
 tipKeys.sort()
 tipWin = {i : tipWin[i] for i in tipKeys}
 print(tipWin)
+teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
+print(teamLineups)
 
-file = open('chart.txt', 'w')
+file = open('tipWinChart.txt', 'w')
 file.write('Team\t|\t\t\tName\t\t\t\t|\tL\t|\tW\t|\tWin%\n')
 lastKey = ''
 for key in tipWin.keys():
-    if(lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]):
+    #if player win hasnt been recorded yet
+    if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
         file.write(str(tipWin[key]) + '\t|\t' + str(round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)) + '\n')
-    elif(len(key[4:len(key)-4]) < 12):
+    #weird tab formatting
+    elif len(key[4:len(key)-4]) < 12:
         file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
-    elif(len(key[4:len(key)-4]) >= 16 and len(key[4:len(key)-4]) <= 19):
+    elif len(key[4:len(key)-4]) >= 16 and len(key[4:len(key)-4]) <= 19:
         file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
-    elif(len(key[4:len(key)-4]) >= 20):
+    elif len(key[4:len(key)-4]) >= 20:
         file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t|\t' + str(tipWin[key]) + '\t|\t')
     else:
         file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
     lastKey = key
-
+    
 
