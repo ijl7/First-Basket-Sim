@@ -5,6 +5,8 @@ i = 22200001
 playerTeam = {}
 tipWin = {}
 teamLineups = {}
+playerStarts = {}
+firstBaskets = {}
 while i < 22201230:
     if i != 22200674 and i != 22200714:
         with open('2022\\' + str(i) + '.csv', mode='r') as file:
@@ -31,14 +33,18 @@ while i < 22201230:
                     #add all players with their team
                     for player in homeLineup:
                         if playerTeam.__contains__(player):
-                            None
+                            playerStarts[player] += 1
                         else:
                             playerTeam.__setitem__(player, row['home_team_abbrev'])
+                            playerStarts.__setitem__(player, 1)
+                            firstBaskets.__setitem__(player, 0)
                     for player in awayLineup:
                         if playerTeam.__contains__(player):
-                            None
+                            playerStarts[player] += 1
                         else:
                             playerTeam.__setitem__(player, row['away_team_abbrev'])
+                            playerStarts.__setitem__(player, 1)
+                            firstBaskets.__setitem__(player, 0)
                     #add all team lineups
                     homeTuple = tuple(homeLineup)
                     if teamLineups.__contains__(homeTuple):
@@ -54,6 +60,7 @@ while i < 22201230:
                     homeLoss = tipWin.__contains__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss')
                     awayWin = tipWin.__contains__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Win')
                     awayLoss = tipWin.__contains__( playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Loss')
+                    #add all tip wins and losses for players
                     if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
                         if homeWin:
                             tipWin[playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win'] += 1
@@ -81,9 +88,13 @@ while i < 22201230:
             for row in csvFile:
                 if "1" == row['eventmsgtype']:
                     print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
+                    firstBaskets[row['player1_name']] += 1
                     break
+                    
 
     i += 1
+
+
 tipKeys = list(tipWin.keys())
 tipKeys.sort()
 tipWin = {i : tipWin[i] for i in tipKeys}
@@ -114,4 +125,22 @@ file = open('lineupChart.txt', 'w')
 file.write('Team\t|\tLineup\n')
 for key in teamLineups.keys():
     file.write(teamLineups[key] + '\t\t|\t' + str(key) + '\n')
+file.close()
+
+file = open('firstBasketChart.txt', 'w')
+file.write('Player\t\t\t\t\t\t|\tSt.\t|\tFirst Baskets\n')
+for player in playerStarts:
+    #weird tab formatting
+    if len(player) <= 7:
+        file.write(player + '\t\t\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    elif len(player) <= 11:
+        file.write(player + '\t\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    elif len(player) >= 16 and len(player) <= 19:
+        file.write(player + '\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    elif len(player) >= 16 and len(player) <= 22:
+        file.write(player + '\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    elif len(player) >= 23:
+        file.write(player + '\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    else:
+        file.write(player + '\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
 file.close()
