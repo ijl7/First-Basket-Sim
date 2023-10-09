@@ -118,7 +118,6 @@ tipWin = {i : tipWin[i] for i in tipKeys}
 teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
 
 playerTeam = sorted(playerTeam)
-print(playerTeam)
 
 file = open('tipWinChart.txt', 'w')
 file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
@@ -146,10 +145,12 @@ for key in teamLineups.keys():
 file.close()
 
 file = open('firstBasketChart.txt', 'w')
-file.write('Player\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
-for player in playerStarts:
+file.write('Team\t|\tPlayer\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
+for pt in playerTeam:
+    team = pt[0:3]
+    player = pt[4:len(pt)]
     #weird tab formatting
-    file.write(player)
+    file.write(team +'\t\t|\t' + player)
     i = 7
     while i > math.trunc(len(player)/4):
         file.write('\t')
