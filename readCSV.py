@@ -41,7 +41,6 @@ while i < 22201230:
                             playerTeam.__setitem__(player, row['away_team_abbrev'])
                     #add all team lineups
                     homeTuple = tuple(homeLineup)
-                    print(homeTuple)
                     if teamLineups.__contains__(homeTuple):
                         None
                     else:
@@ -109,5 +108,10 @@ for key in tipWin.keys():
     else:
         file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
     lastKey = key
-    
+file.close()
 
+file = open('lineupChart.txt', 'w')
+file.write('Team\t|\tLineup\n')
+for key in teamLineups.keys():
+    file.write(teamLineups[key] + '\t\t|\t' + str(key) + '\n')
+file.close()
