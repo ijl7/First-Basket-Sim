@@ -3,7 +3,7 @@ import math
 #import scraper
 
 i = 22200001
-playerTeam = {}
+playerTeam = []
 tipWin = {}
 teamLineups = {}
 playerStarts = {}
@@ -31,21 +31,32 @@ while i < 22201230:
                     awayLineup.append(row['away_player_3'])
                     awayLineup.append(row['away_player_4'])
                     awayLineup.append(row['away_player_5'])
+                    homeTeam = row['home_team_abbrev']
+                    awayTeam = row['away_team_abbrev']
                     #add all players with their team
                     for player in homeLineup:
-                        if playerTeam.__contains__(player):
-                            playerStarts[player] += 1
+                        if playerTeam.__contains__(homeTeam + ' ' + player):
+                            if playerStarts.__contains__(player):
+                                playerStarts[player] += 1
                         else:
-                            playerTeam.__setitem__(player, row['home_team_abbrev'])
-                            playerStarts.__setitem__(player, 1)
-                            firstBaskets.__setitem__(player, 0)
+                            playerTeam.append(homeTeam + ' ' + player)
+                            if playerStarts.__contains__(player):
+                                playerStarts[player] += 1
+                            else:
+                                playerStarts.__setitem__(player, 1)
+                                firstBaskets.__setitem__(player, 0)
                     for player in awayLineup:
-                        if playerTeam.__contains__(player):
-                            playerStarts[player] += 1
+                        if playerTeam.__contains__(awayTeam + ' ' + player):
+                            if playerStarts.__contains__(player):
+                                playerStarts[player] += 1
                         else:
-                            playerTeam.__setitem__(player, row['away_team_abbrev'])
-                            playerStarts.__setitem__(player, 1)
-                            firstBaskets.__setitem__(player, 0)
+                            playerTeam.append(awayTeam + ' ' + player)
+                            if playerStarts.__contains__(player):
+                                playerStarts[player] += 1
+                            else:
+                                playerStarts.__setitem__(player, 1)
+                                firstBaskets.__setitem__(player, 0)
+                            
                     #add all team lineups
                     homeTuple = tuple(homeLineup)
                     if teamLineups.__contains__(homeTuple):
@@ -57,33 +68,37 @@ while i < 22201230:
                     else:
                         teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
                     print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
-                    homeWin = tipWin.__contains__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win')
-                    homeLoss = tipWin.__contains__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss')
-                    awayWin = tipWin.__contains__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Win')
-                    awayLoss = tipWin.__contains__( playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Loss')
+                    player1Team = row['player1_team_abbreviation']
+                    player1Name = row['player1_name']
+                    player2Team = row['player2_team_abbreviation']
+                    player2Name = row['player2_name']
+                    homeWin = tipWin.__contains__(player1Team + ' ' + player1Name + ' Win')
+                    homeLoss = tipWin.__contains__(player1Team + ' ' + player1Name + ' Loss')
+                    awayWin = tipWin.__contains__(player2Team + ' ' + player2Name + ' Win')
+                    awayLoss = tipWin.__contains__(player2Team + ' ' + player2Name + ' Loss')
                     #add all tip wins and losses for players
                     if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
                         if homeWin:
-                            tipWin[playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win'] += 1
+                            tipWin[player1Team + ' ' + player1Name + ' Win'] += 1
                         else:
-                            tipWin.__setitem__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win', 1)
-                            tipWin.__setitem__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss', 0)
+                            tipWin.__setitem__(player1Team + ' ' + player1Name + ' Win', 1)
+                            tipWin.__setitem__(player1Team + ' ' + player1Name + ' Loss', 0)
                         if awayLoss:
-                            tipWin[playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Loss'] += 1
+                            tipWin[player2Team + ' ' + player2Name + ' Loss'] += 1
                         else:
-                            tipWin.__setitem__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Loss', 1)
-                            tipWin.__setitem__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Win', 0)
+                            tipWin.__setitem__(player2Team + ' ' + player2Name + ' Loss', 1)
+                            tipWin.__setitem__(player2Team + ' ' + player2Name + ' Win', 0)
                     else:
                         if homeLoss:
-                            tipWin[playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss'] += 1
+                            tipWin[player1Team + ' ' + player1Name + ' Loss'] += 1
                         else:
-                            tipWin.__setitem__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Loss', 1)
-                            tipWin.__setitem__(playerTeam[row['player1_name']] + ' ' + row['player1_name'] + ' Win', 0)
+                            tipWin.__setitem__(player1Team + ' ' + player1Name + ' Loss', 1)
+                            tipWin.__setitem__(player1Team + ' ' + player1Name + ' Win', 0)
                         if awayWin:
-                            tipWin[playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Win'] += 1
+                            tipWin[player2Team + ' ' + player2Name + ' Win'] += 1
                         else:
-                            tipWin.__setitem__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Win', 1)
-                            tipWin.__setitem__(playerTeam[row['player2_name']] + ' ' + row['player2_name'] + ' Loss', 0)
+                            tipWin.__setitem__(player2Team + ' ' + player2Name + ' Win', 1)
+                            tipWin.__setitem__(player2Team + ' ' + player2Name + ' Loss', 0)
                     break
 
             for row in csvFile:
@@ -99,9 +114,11 @@ while i < 22201230:
 tipKeys = list(tipWin.keys())
 tipKeys.sort()
 tipWin = {i : tipWin[i] for i in tipKeys}
-print(tipWin)
+
 teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
-print(teamLineups)
+
+playerTeam = sorted(playerTeam)
+print(playerTeam)
 
 file = open('tipWinChart.txt', 'w')
 file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
