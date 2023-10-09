@@ -110,50 +110,61 @@ while i < 22201230:
 
     i += 1
 
+def sortDicts(tipWin, teamLineups, playerTeam):
+    tipKeys = list(tipWin.keys())
+    tipKeys.sort()
+    tipWin = {i : tipWin[i] for i in tipKeys}
 
-tipKeys = list(tipWin.keys())
-tipKeys.sort()
-tipWin = {i : tipWin[i] for i in tipKeys}
+    teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
 
-teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
+    playerTeam = sorted(playerTeam)
+    return (tipWin, teamLineups, playerTeam)
 
-playerTeam = sorted(playerTeam)
 
-file = open('tipWinChart.txt', 'w')
-file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
-lastKey = ''
-for key in tipWin.keys():
-    #if player win hasnt been recorded yet
-    if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
-        file.write(str(tipWin[key]) + '\t|\t' + str(round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)) + '\n')
-    else:
-    #weird tab formatting
-        playerName = key[4:len(key)-4]
-        i = 6
-        file.write(key[0:3] + '\t\t|\t' + playerName)
-        while i > math.trunc(len(playerName)/4):
+def writeTipWinChart():
+    print('here')
+    file = open('tipWinChart.txt', 'w')
+    file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
+    lastKey = ''
+    for key in tipWin.keys():
+        #if player win hasnt been recorded yet
+        if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
+            file.write(str(tipWin[key]) + '\t|\t' + str(round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)) + '\n')
+        else:
+        #weird tab formatting
+            playerName = key[4:len(key)-4]
+            i = 6
+            file.write(key[0:3] + '\t\t|\t' + playerName)
+            while i > math.trunc(len(playerName)/4):
+                file.write('\t')
+                i -= 1
+            file.write('|\t' + str(tipWin[key]) + '\t|\t')
+        lastKey = key
+    file.close()
+
+def writeLineupChart():
+    file = open('lineupChart.txt', 'w')
+    file.write('Team\t|\tLineup\n')
+    for key in teamLineups.keys():
+        file.write(teamLineups[key] + '\t\t|\t' + str(key) + '\n')
+    file.close()
+
+def writeFBChart():
+    file = open('firstBasketChart.txt', 'w')
+    file.write('Team\t|\tPlayer\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
+    for pt in playerTeam:
+        team = pt[0:3]
+        player = pt[4:len(pt)]
+        #weird tab formatting
+        file.write(team +'\t\t|\t' + player)
+        i = 7
+        while i > math.trunc(len(player)/4):
             file.write('\t')
             i -= 1
-        file.write('|\t' + str(tipWin[key]) + '\t|\t')
-    lastKey = key
-file.close()
-
-file = open('lineupChart.txt', 'w')
-file.write('Team\t|\tLineup\n')
-for key in teamLineups.keys():
-    file.write(teamLineups[key] + '\t\t|\t' + str(key) + '\n')
-file.close()
-
-file = open('firstBasketChart.txt', 'w')
-file.write('Team\t|\tPlayer\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
-for pt in playerTeam:
-    team = pt[0:3]
-    player = pt[4:len(pt)]
-    #weird tab formatting
-    file.write(team +'\t\t|\t' + player)
-    i = 7
-    while i > math.trunc(len(player)/4):
-        file.write('\t')
-        i -= 1
-    file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerStarts[player], 3)) + '\n')
-file.close()
+        file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerStarts[player], 3)) + '\n')
+    file.close()
+    
+(tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
+writeTipWinChart()
+writeLineupChart()
+writeFBChart()
