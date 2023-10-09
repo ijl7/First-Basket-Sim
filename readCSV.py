@@ -1,4 +1,5 @@
 import csv
+import math
 #import scraper
 
 i = 22200001
@@ -103,21 +104,21 @@ teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
 print(teamLineups)
 
 file = open('tipWinChart.txt', 'w')
-file.write('Team\t|\t\t\tName\t\t\t\t|\tL\t|\tW\t|\tWin%\n')
+file.write('Team\t|\t\t\tName\t\t\t|\tL\t|\tW\t|\tWin%\n')
 lastKey = ''
 for key in tipWin.keys():
     #if player win hasnt been recorded yet
     if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
         file.write(str(tipWin[key]) + '\t|\t' + str(round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)) + '\n')
-    #weird tab formatting
-    elif len(key[4:len(key)-4]) < 12:
-        file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
-    elif len(key[4:len(key)-4]) >= 16 and len(key[4:len(key)-4]) <= 19:
-        file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
-    elif len(key[4:len(key)-4]) >= 20:
-        file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t|\t' + str(tipWin[key]) + '\t|\t')
     else:
-        file.write(key[0:3] + '\t\t|\t' + key[4:len(key)-4] + '\t\t\t\t|\t' + str(tipWin[key]) + '\t|\t')
+    #weird tab formatting
+        playerName = key[4:len(key)-4]
+        i = 6
+        file.write(key[0:3] + '\t\t|\t' + playerName)
+        while i > math.trunc(len(playerName)/4):
+            file.write('\t')
+            i -= 1
+        file.write('|\t' + str(tipWin[key]) + '\t|\t')
     lastKey = key
 file.close()
 
@@ -131,16 +132,10 @@ file = open('firstBasketChart.txt', 'w')
 file.write('Player\t\t\t\t\t\t|\tSt.\t|\tFirst Baskets\n')
 for player in playerStarts:
     #weird tab formatting
-    if len(player) <= 7:
-        file.write(player + '\t\t\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
-    elif len(player) <= 11:
-        file.write(player + '\t\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
-    elif len(player) >= 16 and len(player) <= 19:
-        file.write(player + '\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
-    elif len(player) >= 16 and len(player) <= 22:
-        file.write(player + '\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
-    elif len(player) >= 23:
-        file.write(player + '\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
-    else:
-        file.write(player + '\t\t\t\t|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
+    file.write(player)
+    i = 7
+    while i > math.trunc(len(player)/4):
+        file.write('\t')
+        i -= 1
+    file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\n')
 file.close()
