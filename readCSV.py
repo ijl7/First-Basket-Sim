@@ -285,9 +285,9 @@ for lineup in lines2:
     i += 1
 lineNum1 = input('Which lineups are starting?\n')
 lineNum2 = input()
-line1 = lines1[int(lineNum1)]
-line2 = lines2[int(lineNum2)]
-for i in range(10000000):
+line1 = lines1[int(lineNum1)-1]
+line2 = lines2[int(lineNum2)-1]
+for i in range(100000):
     getShooter(line1, line2)
 fbResults = sorted(fbResults)
 for player in fbResults:
@@ -295,5 +295,6 @@ for player in fbResults:
         printedResults[player] += 1
     else:
         printedResults.__setitem__(player, 1)
+printedResults = dict(sorted(printedResults.items(), key=lambda x:x[1], reverse=True))
 for result in printedResults.keys():
-    print(result + ':\t' + str(round(printedResults[result]/100000, 3)) + '% chance:\t+' + str(round(((1/(printedResults[result]/10000000))-1)*100)) + ' odds')
+    print(result + ':\t' + str(round(printedResults[result]/1000, 3)) + '% chance:\t+' + str(round(((1/(printedResults[result]/100000))-1)*100)) + ' odds')
