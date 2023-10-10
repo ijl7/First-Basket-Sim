@@ -9,6 +9,10 @@ tipWin = {}
 teamLineups = {}
 playerStarts = {}
 firstBaskets = {}
+playerShots = {}
+tipData = []
+t1 = None
+t2 = None
 while i < 22201230:
     if i != 22200674 and i != 22200714:
         with open('2022\\' + str(i) + '.csv', mode='r') as file:
@@ -19,9 +23,11 @@ while i < 22201230:
             homeTuple = ()
             awayTuple = ()
 
+            basketMade = True
+
             
             for row in csvFile:
-                if "10" == row['eventmsgtype']:
+                if '10' == row['eventmsgtype']:
                     homeLineup.append(row['home_player_1'])
                     homeLineup.append(row['home_player_2'])
                     homeLineup.append(row['home_player_3'])
@@ -46,6 +52,7 @@ while i < 22201230:
                             else:
                                 playerStarts.__setitem__(player, 1)
                                 firstBaskets.__setitem__(player, 0)
+                                playerShots.__setitem__(player, 0)
                     for player in awayLineup:
                         if playerTeam.__contains__(awayTeam + ' ' + player):
                             if playerStarts.__contains__(player):
@@ -57,6 +64,7 @@ while i < 22201230:
                             else:
                                 playerStarts.__setitem__(player, 1)
                                 firstBaskets.__setitem__(player, 0)
+                                playerShots.__setitem__(player, 0)
                             
                     #add all team lineups
                     homeTuple = tuple(homeLineup)
@@ -103,10 +111,15 @@ while i < 22201230:
                     break
 
             for row in csvFile:
-                if "1" == row['eventmsgtype']:
+                if '1' == row['eventmsgtype']:
                     #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
+                    playerShots[row['player1_name']] += 1
                     firstBaskets[row['player1_name']] += 1
+                    basketMade = False
                     break
+                elif '2' == row['eventmsgtype']:
+                    playerShots[row['player1_name']] += 1
+
     i += 1
 
 def sortDicts(tipWin, teamLineups, playerTeam):
@@ -149,7 +162,7 @@ def writeLineupChart():
 
 def writeFBChart():
     file = open('firstBasketChart.txt', 'w')
-    file.write('Team\t|\tPlayer\t\t\t\t\t\t|\tSt.\t|\tFB\t|\tFB%\n')
+    file.write('Team\t|\tPlayer\t\t\t\t\t\t|\tSt.\t|\tShots\t|\tFB\t|\tFB%\n')
     for pt in playerTeam:
         team = pt[0:3]
         player = pt[4:len(pt)]
@@ -159,12 +172,13 @@ def writeFBChart():
         while i > math.trunc(len(player)/4):
             file.write('\t')
             i -= 1
-        file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerStarts[player], 3)) + '\n')
+        if playerShots[player] != 0:
+            file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(playerShots[player]) + '\t\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(round(firstBaskets[player]/playerShots[player], 3)) + '\n')
+        else:
+            file.write('|\t' + str(playerStarts[player]) + '\t|\t' + str(playerShots[player]) + '\t\t|\t' + str(firstBaskets[player]) + '\t|\t' + str(0) + '\n')
     file.close()
 
 def predictTipWin():
-    p1 = input('Who is jumping for the ball?\n')
-    p2 = input()
     p1Percent = 0.0
     p2Percent = 0.0
     lastKey = ''
@@ -177,7 +191,7 @@ def predictTipWin():
             if p2 == playerName:
                 p2Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)
         lastKey = key
-    data = []
+    
     winner = 0
     for i in range(1000000):
         p1Tip = round(random.uniform(p1Percent-.3, p1Percent+.3), 3)
@@ -186,23 +200,82 @@ def predictTipWin():
             winner = 1
         else:
             winner = 2
-        data.append({'Player': winner})
+        tipData.append({'Player': winner})
     p1Count = 0
     p2Count = 0
-    for sim in data:
+    for sim in tipData:
         if sim['Player'] == 1:
             p1Count += 1
         else:
             p2Count += 1
-    print(p1 + ' won the tip ' + str(p1Count) + ' times.')
+    '''print(p1 + ' won the tip ' + str(p1Count) + ' times.')
     print(p2 + ' won the tip ' + str(p2Count) + ' times.')
     print('This gives ' + p1 + ' a ' + str(p1Count/10000) + '% chance to win the tip.')
-    print('This gives ' + p2 + ' a ' + str(p2Count/10000) + '% chance to win the tip.')
+    print('This gives ' + p2 + ' a ' + str(p2Count/10000) + '% chance to win the tip.')'''
     
+def getLineups():
+    lines1 = []
+    lines2 = []
+    for player in playerTeam:
+        if player[4:len(player)] == p1:
+            t1 = player[0:3]
+        elif player[4:len(player)] == p2:
+            t2 = player[0:3]
+    i = 1
+    for key in teamLineups.keys():
+        if teamLineups[key] == t1:
+            lines1.append(key)
+            #print(str(i) + '. ' + str(key))
+            i += 1
+        elif teamLineups[key] == t2:
+            lines2.append(key)
+            #print(str(i) + '. ' + str(key))
+            i += 1
+        else:
+            i = 1
+    return(t1, t2, lines1, lines2)
     
+
+def getShooter():
+    (t1, t2, lines1, lines2) = getLineups()
+    line1 = lines1[int(input('Which lineups are starting?\n'))-1]
+    line2 = lines2[int(input())-1]
+
+    ballFirst = tipData[random.randint(0,999999)-1]['Player']
+    i = 1
+    t1Chance = []
+    t2Chance = []
+    result = ' Miss'
+    while result[len(result)-4:len(result)] != 'Make':
+        if ballFirst == 1:
+            print(str(t1) + ' ball')
+            for player in line1:
+                for j in range(firstBaskets[player]):
+                    t1Chance.append(player + ' Make')
+                for j in range(playerShots[player]-firstBaskets[player]):
+                    t1Chance.append(player + ' Miss')
+                i += 1
+            result = t1Chance[random.randint(0,len(t1Chance))]
+        else:
+            print(str(t2) + ' ball')
+            for player in line2:
+                for j in range(firstBaskets[player]):
+                    t2Chance.append(player + ' Make')
+                for j in range(playerShots[player]-firstBaskets[player]):
+                    t2Chance.append(player + ' Miss')
+                i += 1
+            result = t2Chance[random.randint(0,len(t2Chance))]
+        if ballFirst == 1:
+            ballFirst = 2
+        else:
+            ballFirst = 1
+        print(str(result))
 
 (tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
 writeTipWinChart()
 writeLineupChart()
 writeFBChart()
+p1 = input('Who is jumping for the ball?\n')
+p2 = input()
 predictTipWin()
+getShooter()
