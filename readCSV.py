@@ -187,16 +187,20 @@ def predictTipWin():
         #if player win hasnt been recorded yet
         if lastKey[0:len(lastKey)-4] == key[0:len(lastKey)-4]:
             if p1 == playerName:
-                p1Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)
+                p1Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 8)
             if p2 == playerName:
-                p2Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 3)
+                p2Percent = round(tipWin[key]/(tipWin[key]+tipWin[lastKey]), 8)
         lastKey = key
     
     winner = 0
+    
+    p1Tip = p1Percent*(1-p2Percent)
+    p2Tip = p2Percent*(1-p1Percent)
+
+    p1TipNormal = p1Tip/(p1Tip+p2Tip)
+    
     for i in range(1000000):
-        p1Tip = round(random.uniform(p1Percent-.3, p1Percent+.3), 3)
-        p2Tip = round(random.uniform(p2Percent-.3, p2Percent+.3), 3)
-        if p1Tip > p2Tip:
+        if i <= round(p1TipNormal*10000):
             winner = 1
         else:
             winner = 2
