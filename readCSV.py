@@ -227,18 +227,11 @@ def getLineups():
             t1 = player[0:3]
         elif player[4:len(player)] == p2:
             t2 = player[0:3]
-    i = 1
     for key in teamLineups.keys():
         if teamLineups[key] == t1:
             lines1.append(key)
-            print(str(i) + '. ' + str(key))
-            i += 1
         elif teamLineups[key] == t2:
             lines2.append(key)
-            print(str(i) + '. ' + str(key))
-            i += 1
-        else:
-            i = 1
     return (lines1, lines2)
 
 def getShooter(line1, line2):
@@ -282,6 +275,14 @@ p1 = input('Who is jumping for the ball?\n')
 p2 = input()
 predictTipWin()
 (lines1, lines2) = getLineups()
+i = 1
+for lineup in lines1:
+    print(str(i) + '. ' + str(lineup))
+    i += 1
+i = 1
+for lineup in lines2:
+    print(str(i) + '. ' + str(lineup))
+    i += 1
 lineNum1 = input('Which lineups are starting?\n')
 lineNum2 = input()
 line1 = lines1[int(lineNum1)]
