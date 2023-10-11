@@ -202,7 +202,7 @@ def predictTipWin():
     p1TipNormal = p1Tip/(p1Tip+p2Tip)
     
     for i in range(1000000):
-        if i <= round(p1TipNormal*10000):
+        if i <= round(p1TipNormal*1000000):
             winner = 1
         else:
             winner = 2
@@ -233,32 +233,18 @@ def getLineups():
         elif teamLineups[key] == t2:
             lines2.append(key)
     return (lines1, lines2)
-
-def getShooter(line1, line2):
-
-    ballFirst = tipData[random.randint(0,999999)-1]['Player']
-    i = 1
-    t1Chance = []
-    t2Chance = []
+t1Chance = []
+t2Chance = []
+def getShooter():
+    randInt = random.randint(0,999999)
+    ballFirst = tipData[randInt]['Player']
     result = ' Miss'
     while result[len(result)-4:len(result)] != 'Make':
         if ballFirst == 1:
             #print(str(t1) + ' ball')
-            for player in line1:
-                for j in range(firstBaskets[player]):
-                    t1Chance.append(player + ' Make')
-                for j in range(playerShots[player]-firstBaskets[player]):
-                    t1Chance.append(player + ' Miss')
-                i += 1
             result = t1Chance[random.randint(0,len(t1Chance)-1)]
         else:
             #print(str(t2) + ' ball')
-            for player in line2:
-                for j in range(firstBaskets[player]):
-                    t2Chance.append(player + ' Make')
-                for j in range(playerShots[player]-firstBaskets[player]):
-                    t2Chance.append(player + ' Miss')
-                i += 1
             result = t2Chance[random.randint(0,len(t2Chance)-1)]
         if ballFirst == 1:
             ballFirst = 2
@@ -287,8 +273,19 @@ lineNum1 = input('Which lineups are starting?\n')
 lineNum2 = input()
 line1 = lines1[int(lineNum1)-1]
 line2 = lines2[int(lineNum2)-1]
+for player in line1:
+    for j in range(firstBaskets[player]):
+        t1Chance.append(player + ' Make')
+    for j in range(playerShots[player]-firstBaskets[player]):
+        t1Chance.append(player + ' Miss')
+for player in line2:
+    for j in range(firstBaskets[player]):
+        t2Chance.append(player + ' Make')
+    for j in range(playerShots[player]-firstBaskets[player]):
+        t2Chance.append(player + ' Miss')
+
 for i in range(100000):
-    getShooter(line1, line2)
+    getShooter()
 fbResults = sorted(fbResults)
 for player in fbResults:
     if printedResults.__contains__(player):
