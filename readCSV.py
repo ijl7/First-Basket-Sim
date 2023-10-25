@@ -269,22 +269,42 @@ i = 1
 for lineup in lines2:
     print(str(i) + '. ' + str(lineup))
     i += 1
-lineNum1 = input('Which lineups are starting?\n')
+lineNum1 = input('Which lineups are starting? (Put in 0 to enter your own lineups)\n')
 lineNum2 = input()
-line1 = lines1[int(lineNum1)-1]
-line2 = lines2[int(lineNum2)-1]
-for player in line1:
-    for j in range(firstBaskets[player]):
-        t1Chance.append(player + ' Make')
-    for j in range(playerShots[player]-firstBaskets[player]):
-        t1Chance.append(player + ' Miss')
-for player in line2:
-    for j in range(firstBaskets[player]):
-        t2Chance.append(player + ' Make')
-    for j in range(playerShots[player]-firstBaskets[player]):
-        t2Chance.append(player + ' Miss')
+if lineNum1 != '0':
+    line1 = lines1[int(lineNum1)-1]
+    for player in line1:
+        for j in range(firstBaskets[player]):
+            t1Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t1Chance.append(player + ' Miss')
+else:
+    i = 1
+    while i <= 5:
+        player = input('Enter Player ' + str(i) + ':\n')
+        for j in range(firstBaskets[player]):
+            t1Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t1Chance.append(player + ' Miss')
+        i += 1
+if lineNum2 != '0':
+    line2 = lines2[int(lineNum2)-1]
+    for player in line2:
+        for j in range(firstBaskets[player]):
+            t2Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t2Chance.append(player + ' Miss')
+else:
+    i = 1
+    while i <= 5:
+        player = input('Enter Player ' + str(i) + ':\n')
+        for j in range(firstBaskets[player]):
+            t2Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t2Chance.append(player + ' Miss')
+        i += 1
 
-for i in range(100000):
+for i in range(10000000):
     getShooter()
 fbResults = sorted(fbResults)
 for player in fbResults:
@@ -294,4 +314,4 @@ for player in fbResults:
         printedResults.__setitem__(player, 1)
 printedResults = dict(sorted(printedResults.items(), key=lambda x:x[1], reverse=True))
 for result in printedResults.keys():
-    print(result + ':\t' + str(round(printedResults[result]/1000, 3)) + '% chance:\t+' + str(round(((1/(printedResults[result]/100000))-1)*100)) + ' odds')
+    print(result + ':\t' + str(round(printedResults[result]/100000, 3)) + '% chance:\t+' + str(round(((1/(printedResults[result]/10000000))-1)*100)) + ' odds')
