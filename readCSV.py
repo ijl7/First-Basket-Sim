@@ -13,12 +13,12 @@ playerShots = {}
 tipData = []
 fbResults= []
 printedResults = {}
-line1 = None
-line2 = None
+line1 = []
+line2 = []
 def get2021():
     i = 22100001
-    while i < 22101170:
-        if i != 22100717 and i != 22100773:
+    while i < 22101230:
+        if i != 22100717 and i != 22100773 and i != 22101171:
             with open('2021\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
 
@@ -322,7 +322,7 @@ def predictTipWin():
     print('This gives ' + p1 + ' a ' + str(round(p1TipNormal*100, 3)) + '% chance to win the tip.')
     print('This gives ' + p2 + ' a ' + str(round((1-p1TipNormal)*100, 3)) + '% chance to win the tip.')
     
-def getLineups():
+def retrieveLineups():
     lines1 = []
     lines2 = []
     for player in playerTeam:
@@ -336,8 +336,106 @@ def getLineups():
         elif teamLineups[key] == t2:
             lines2.append(key)
     return (lines1, lines2)
-t1Chance = []
-t2Chance = []
+def getLineupChoice(line1, line2):
+    lineNum1 = input('Which lineups are starting? (Put in 0 to enter your own lineups)\n')
+    lineNum2 = input()
+    if lineNum1 != '0':
+        line1 = lines1[int(lineNum1)-1]
+    else:
+        i = 1
+        while i <= 5:
+            player = input('Enter Player ' + str(i) + ':\n')
+            line1.append(player)
+            i += 1
+    if lineNum2 != '0':
+        line2 = lines2[int(lineNum2)-1]
+    else:
+        i = 1
+        while i <= 5:
+            player = input('Enter Player ' + str(i) + ':\n')
+            line2.append(player)
+            i += 1
+    return (line1, line2)
+
+def getFirstBasket():
+    t1Chance = []
+    t2Chance = []
+    for player in line1:
+        for j in range(firstBaskets[player]):
+            t1Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t1Chance.append(player + ' Miss')
+    for player in line2:
+        for j in range(firstBaskets[player]):
+            t2Chance.append(player + ' Make')
+        for j in range(playerShots[player]-firstBaskets[player]):
+            t2Chance.append(player + ' Miss')
+    return (t1Chance, t2Chance)
+
+def getAllBaskets():
+    t1Chance = []
+    t2Chance = []
+    #get 2023
+    if int(years) < 3:
+        i = 22200001
+        useGame = True
+        while i < 22201230:
+            if i != 22200674 and i != 22200714 and useGame:
+                with open('2022\\' + str(i) + '.csv', mode='r') as file:
+                    csvFile = csv.DictReader(file)
+                    for row in csvFile:
+                        useLine = True
+                        homeLineup = []
+                        awayLineup = []
+                        homeLineup.append(row['home_player_1'])
+                        homeLineup.append(row['home_player_2'])
+                        homeLineup.append(row['home_player_3'])
+                        homeLineup.append(row['home_player_4'])
+                        homeLineup.append(row['home_player_5'])
+                        awayLineup.append(row['away_player_1'])
+                        awayLineup.append(row['away_player_2'])
+                        awayLineup.append(row['away_player_3'])
+                        awayLineup.append(row['away_player_4'])
+                        awayLineup.append(row['away_player_5'])
+                        j = 0
+                        while j < 5:
+                            #check all players in the home and away lineup for line1
+                            if homeLineup.__contains__(line1[j]):
+                                None
+                            elif awayLineup.__contains__(line1[j]):
+                                None
+                            else:
+                                useLine = False
+                            j += 1
+                        if useLine:
+                            #only add if the player you want is shooting
+                            if line1.__contains__(row['player1_name']):
+                                if row['eventmsgtype'] == '2':
+                                    t1Chance.append(row['player1_name'] + ' Miss')
+                                elif row['eventmsgtype'] == '1':
+                                    t1Chance.append(row['player1_name'] + ' Make')
+                        useLine = True
+                        j = 0
+                        while j < 5:
+                            #check all players in the home and away lineup for line2
+                            if homeLineup.__contains__(line2[j]):
+                                None
+                            elif awayLineup.__contains__(line2[j]):
+                                None
+                            else:
+                                useLine = False
+                            j += 1
+                        if useLine:
+                            #only add if the player you want is shooting
+                            if line2.__contains__(row['player1_name']):
+                                if row['eventmsgtype'] == '2':
+                                    t2Chance.append(row['player1_name'] + ' Miss')
+                                elif row['eventmsgtype'] == '1':
+                                    t2Chance.append(row['player1_name'] + ' Make')
+            i += 1         
+    if int(years) < 2:
+        None
+    return (t1Chance, t2Chance)
 def getShooter():
     randInt = random.randint(0,999999)
     ballFirst = tipData[randInt]['Player']
@@ -368,50 +466,21 @@ writeFBChart()
 p1 = input('Who is jumping for the ball?\n')
 p2 = input()
 predictTipWin()
-(lines1, lines2) = getLineups()
-'''i = 1
+(lines1, lines2) = retrieveLineups()
+i = 1
 for lineup in lines1:
     print(str(i) + '. ' + str(lineup))
     i += 1
 i = 1
 for lineup in lines2:
     print(str(i) + '. ' + str(lineup))
-    i += 1'''
-lineNum1 = input('Which lineups are starting? (Put in 0 to enter your own lineups)\n')
-lineNum2 = input()
-if lineNum1 != '0':
-    line1 = lines1[int(lineNum1)-1]
-    for player in line1:
-        for j in range(firstBaskets[player]):
-            t1Chance.append(player + ' Make')
-        for j in range(playerShots[player]-firstBaskets[player]):
-            t1Chance.append(player + ' Miss')
+    i += 1
+(line1, line2) = getLineupChoice(line1, line2)
+mode = input('Would you like first basket data (1), or all plays (2)?\n')
+if int(mode) == 1:
+    (t1Chance, t2Chance) = getFirstBasket()
 else:
-    i = 1
-    while i <= 5:
-        player = input('Enter Player ' + str(i) + ':\n')
-        for j in range(firstBaskets[player]):
-            t1Chance.append(player + ' Make')
-        for j in range(playerShots[player]-firstBaskets[player]):
-            t1Chance.append(player + ' Miss')
-        i += 1
-if lineNum2 != '0':
-    line2 = lines2[int(lineNum2)-1]
-    for player in line2:
-        for j in range(firstBaskets[player]):
-            t2Chance.append(player + ' Make')
-        for j in range(playerShots[player]-firstBaskets[player]):
-            t2Chance.append(player + ' Miss')
-else:
-    i = 1
-    while i <= 5:
-        player = input('Enter Player ' + str(i) + ':\n')
-        for j in range(firstBaskets[player]):
-            t2Chance.append(player + ' Make')
-        for j in range(playerShots[player]-firstBaskets[player]):
-            t2Chance.append(player + ' Miss')
-        i += 1
-
+    (t1Chance,t2Chance) = getAllBaskets()
 for i in range(10000000):
     getShooter()
 fbResults = sorted(fbResults)
@@ -420,6 +489,9 @@ for player in fbResults:
         printedResults[player] += 1
     else:
         printedResults.__setitem__(player, 1)
+#sort results by highest percent chance to score
 printedResults = dict(sorted(printedResults.items(), key=lambda x:x[1], reverse=True))
 for result in printedResults.keys():
     print(result + ':\t' + str(round(printedResults[result]/100000, 3)) + '% chance:\t+' + str(round(((1/(printedResults[result]/10000000))-1)*100)) + ' odds')
+
+

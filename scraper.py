@@ -1,7 +1,7 @@
 import nba_scraper.nba_scraper as ns
 
-i = 22300001
-while i < 22301230:
+i = 22100717
+while i < 22100718:
 
     ns.scrape_game([i], data_format='csv', data_dir="2021")
     #ns.scrape_date_range('2023-10-25','2023-10-25',data_format='csv', data_dir='2023')
