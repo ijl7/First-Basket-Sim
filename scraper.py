@@ -11,5 +11,7 @@ while i < 42200406:
     #ns.scrape_season(2024,data_format='csv', data_dir='2023')
     i += 1
 
-#22100717
-#22101171 on
+#Missing Files
+#22100717, 22101171, 22200674, 22200714
+#Broken Files
+#22100773
