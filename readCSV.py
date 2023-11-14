@@ -47,7 +47,7 @@ def get2021():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                playerTeam.append(homeTeam + ' ' + player)
+                                #playerTeam.append(homeTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -59,7 +59,7 @@ def get2021():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                playerTeam.append(awayTeam + ' ' + player)
+                                #playerTeam.append(awayTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -70,14 +70,14 @@ def get2021():
                         #add all team lineups
                         homeTuple = tuple(homeLineup)
                         awayTuple = tuple(awayLineup)
-                        if teamLineups.__contains__(homeTuple):
+                        '''if teamLineups.__contains__(homeTuple):
                             None
                         else:
                             teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
                         if teamLineups.__contains__(awayTuple):
                             None
                         else:
-                            teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
+                            teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])'''
                         #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
                         player1Team = row['player1_team_abbreviation']
                         player1Name = row['player1_name']
@@ -154,7 +154,7 @@ def get2022():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                playerTeam.append(homeTeam + ' ' + player)
+                                #playerTeam.append(homeTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -166,7 +166,7 @@ def get2022():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                playerTeam.append(awayTeam + ' ' + player)
+                                #playerTeam.append(awayTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -177,14 +177,14 @@ def get2022():
                         #add all team lineups
                         homeTuple = tuple(homeLineup)
                         awayTuple = tuple(awayLineup)
-                        if teamLineups.__contains__(homeTuple):
+                        '''if teamLineups.__contains__(homeTuple):
                             None
                         else:
                             teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
                         if teamLineups.__contains__(awayTuple):
                             None
                         else:
-                            teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
+                            teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])'''
                         #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
                         player1Team = row['player1_team_abbreviation']
                         player1Name = row['player1_name']
@@ -231,7 +231,7 @@ def get2022():
         i += 1
 def get2023():
     i = 22300001
-    while i < 22300157:
+    while i < 22300192:
         if i != 22100715:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -334,7 +334,7 @@ def get2023():
                         break
                     elif '2' == row['eventmsgtype']:
                         playerShots[row['player1_name']] += 1
-        if i != 22300007:
+        if i != 22300016:
             i += 1
         else:
             i = 22300061
@@ -488,7 +488,7 @@ def getAllBaskets():
     t2Chance = []
     i = 22300001
     useGame = True
-    while i < 22300157:
+    while i < 22300192:
         if i != 22200674 and useGame:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -541,7 +541,7 @@ def getAllBaskets():
                                 t2Chance.append(row['player1_name'] + ' Miss')
                             elif row['eventmsgtype'] == '1':
                                 t2Chance.append(row['player1_name'] + ' Make')
-        if i != 22300007:
+        if i != 22300016:
             i += 1
         else:
             i = 22300061
