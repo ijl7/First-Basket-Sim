@@ -334,10 +334,7 @@ def get2023():
                         break
                     elif '2' == row['eventmsgtype']:
                         playerShots[row['player1_name']] += 1
-        if i != 22300052:
-            i += 1
-        else:
-            i = 22300061
+        i += 1
 
 def sortDicts(tipWin, teamLineups, playerTeam):
     tipKeys = list(tipWin.keys())
@@ -541,10 +538,7 @@ def getAllBaskets():
                                 t2Chance.append(row['player1_name'] + ' Miss')
                             elif row['eventmsgtype'] == '1':
                                 t2Chance.append(row['player1_name'] + ' Make')
-        if i != 22300052:
-            i += 1
-        else:
-            i = 22300061
+        i = 22300061
     if int(years) < 3:
         i = 22200001
         useGame = True
