@@ -1,7 +1,7 @@
 Name					|	L	|	W	|	Win%
 Aaron Gordon 			|	0	|	1	|	1.0
 Abdel Nader 			|	0	|	1	|	1.0
-Al Horford 				|	32	|	35	|	0.522
+Al Horford 				|	33	|	35	|	0.515
 Aleksej Pokusevski 		|	14	|	6	|	0.3
 Alex Caruso 			|	0	|	1	|	1.0
 Alex Len 				|	9	|	3	|	0.25
@@ -31,7 +31,7 @@ Coby White 				|	0	|	2	|	1.0
 Cody Zeller 			|	2	|	0	|	0.0
 D.J. Wilson 			|	0	|	1	|	1.0
 Damian Jones 			|	9	|	8	|	0.471
-Daniel Gafford 			|	61	|	22	|	0.265
+Daniel Gafford 			|	61	|	23	|	0.274
 Daniel Theis 			|	6	|	2	|	0.25
 Dario Saric 			|	1	|	0	|	0.0
 Darius Bazley 			|	2	|	2	|	0.5
@@ -40,7 +40,7 @@ DeAndre Jordan 			|	12	|	17	|	0.586
 DeMarcus Cousins 		|	4	|	2	|	0.333
 Deandre Ayton 			|	42	|	98	|	0.7
 Deni Avdija 			|	1	|	0	|	0.0
-Dereck Lively II 		|	7	|	7	|	0.5
+Dereck Lively II 		|	8	|	7	|	0.467
 Derrick Favors 			|	10	|	8	|	0.444
 Devin Vassell 			|	0	|	1	|	1.0
 Dewayne Dedmon 			|	13	|	3	|	0.188
@@ -58,7 +58,7 @@ Eugene Omoruyi 			|	1	|	0	|	0.0
 Evan Mobley 			|	19	|	15	|	0.441
 Freddie Gillespie 		|	0	|	1	|	1.0
 Giannis Antetokounmpo 	|	2	|	6	|	0.75
-Goga Bitadze 			|	21	|	9	|	0.3
+Goga Bitadze 			|	22	|	9	|	0.29
 Gorgui Dieng 			|	0	|	2	|	1.0
 Hassan Whiteside 		|	3	|	5	|	0.625
 Isaiah Hartenstein 		|	6	|	2	|	0.25
@@ -71,12 +71,12 @@ JaMychal Green 			|	1	|	2	|	0.667
 JaVale McGee 			|	10	|	14	|	0.583
 Jabari Smith Jr. 		|	23	|	12	|	0.343
 Jaden Ivey 				|	0	|	1	|	1.0
-Jakob Poeltl 			|	75	|	81	|	0.519
+Jakob Poeltl 			|	76	|	81	|	0.516
 Jalen Duren 			|	22	|	16	|	0.421
 Jalen Smith 			|	5	|	8	|	0.615
 Jalen Williams 			|	1	|	0	|	0.0
 James Wiseman 			|	10	|	12	|	0.545
-Jaren Jackson Jr. 		|	20	|	39	|	0.661
+Jaren Jackson Jr. 		|	20	|	40	|	0.667
 Jarrett Allen 			|	43	|	94	|	0.686
 Jaxson Hayes 			|	0	|	1	|	1.0
 Jaylin Williams 		|	23	|	12	|	0.343
@@ -86,9 +86,9 @@ Jericho Sims 			|	10	|	11	|	0.524
 Jock Landale 			|	1	|	1	|	0.5
 Joel Embiid 			|	61	|	89	|	0.593
 John Collins 			|	2	|	2	|	0.5
-Jonas Valanciunas 		|	80	|	91	|	0.532
+Jonas Valanciunas 		|	80	|	92	|	0.535
 Jonathan Kuminga 		|	7	|	1	|	0.125
-Jusuf Nurkic 			|	38	|	88	|	0.698
+Jusuf Nurkic 			|	39	|	88	|	0.693
 Karl-Anthony Towns 		|	38	|	41	|	0.519
 Kelly Olynyk 			|	24	|	13	|	0.351
 Kenneth Lofton Jr. 		|	1	|	0	|	0.0
@@ -115,7 +115,7 @@ Mason Plumlee 			|	75	|	57	|	0.432
 Maxi Kleber 			|	1	|	0	|	0.0
 Meyers Leonard 			|	0	|	2	|	1.0
 Mike Muscala 			|	4	|	3	|	0.429
-Mitchell Robinson 		|	51	|	86	|	0.628
+Mitchell Robinson 		|	51	|	87	|	0.63
 Mo Bamba 				|	36	|	33	|	0.478
 Montrezl Harrell 		|	8	|	2	|	0.2
 Moritz Wagner 			|	3	|	0	|	0.0
@@ -127,7 +127,7 @@ Naz Reid 				|	11	|	6	|	0.353
 Nerlens Noel 			|	9	|	6	|	0.4
 Nic Claxton 			|	48	|	53	|	0.525
 Nick Richards 			|	9	|	5	|	0.357
-Nikola Jokic 			|	76	|	82	|	0.519
+Nikola Jokic 			|	76	|	83	|	0.522
 Nikola Jovic 			|	3	|	0	|	0.0
 Nikola Vucevic 			|	106	|	66	|	0.384
 Noah Vonleh 			|	1	|	0	|	0.0
@@ -139,7 +139,7 @@ Orlando Robinson 		|	0	|	1	|	1.0
 P.J. Washington 		|	2	|	1	|	0.333
 Pascal Siakam 			|	1	|	0	|	0.0
 Paul Millsap 			|	1	|	0	|	0.0
-Paul Reed 				|	0	|	2	|	1.0
+Paul Reed 				|	0	|	3	|	1.0
 Precious Achiuwa 		|	14	|	12	|	0.462
 Richaun Holmes 			|	14	|	23	|	0.622
 Robert Williams III 	|	24	|	55	|	0.696
@@ -175,5 +175,5 @@ Wendell Carter Jr. 		|	22	|	30	|	0.577
 Wenyen Gabriel 			|	1	|	0	|	0.0
 Willy Hernangomez 		|	5	|	5	|	0.5
 Xavier Tillman 			|	2	|	0	|	0.0
-Zach Collins 			|	16	|	14	|	0.467
+Zach Collins 			|	17	|	14	|	0.452
 Zeke Nnaji 				|	3	|	1	|	0.25
