@@ -231,7 +231,7 @@ def get2022():
         i += 1
 def get2023():
     i = 22300001
-    while i < 22300292:
+    while i < 22301205:
         if i != 22100715:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -334,7 +334,10 @@ def get2023():
                         break
                     elif '2' == row['eventmsgtype']:
                         playerShots[row['player1_name']] += 1
-        i += 1
+        if i != 22300291:
+            i += 1
+        else:
+            i = 22301201
 
 def sortDicts(tipWin, teamLineups, playerTeam):
     tipKeys = list(tipWin.keys())
@@ -485,7 +488,7 @@ def getAllBaskets():
     t2Chance = []
     i = 22300001
     useGame = True
-    while i < 22300292:
+    while i < 22301205:
         if i != 22200674 and useGame:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -538,7 +541,10 @@ def getAllBaskets():
                                 t2Chance.append(row['player1_name'] + ' Miss')
                             elif row['eventmsgtype'] == '1':
                                 t2Chance.append(row['player1_name'] + ' Make')
-        i += 1
+        if i != 22300291:
+            i += 1
+        else:
+            i = 22301201
     if int(years) < 3:
         i = 22200001
         useGame = True
@@ -654,6 +660,34 @@ def getAllBaskets():
                                     t2Chance.append(row['player1_name'] + ' Make')
             i += 1
     return (t1Chance, t2Chance)
+
+def getTeamBaskets():
+    t1FB = {}
+    t2FB = {}
+    for basket in t1Chance:
+        if basket[len(basket)-4:len(basket)] == 'Make':
+            playerName = basket[0:len(basket)-5]
+            if t1FB.__contains__(playerName):
+                t1FB[playerName] += 1
+            else:
+                t1FB.__setitem__(playerName, 1)
+    for basket in t2Chance:
+        if basket[len(basket)-4:len(basket)] == 'Make':
+            playerName = basket[0:len(basket)-5]
+            if t2FB.__contains__(playerName):
+                t2FB[playerName] += 1
+            else:
+                t2FB.__setitem__(playerName, 1)
+    t1Total = 0
+    t2Total = 0
+    for player in t1FB:
+        t1Total += t1FB[player]
+    for player in t2FB:
+        t2Total += t2FB[player]
+    t1FB = dict(sorted(t1FB.items(), key=lambda x:x[1], reverse=True))
+    t2FB = dict(sorted(t2FB.items(), key=lambda x:x[1], reverse=True))
+    return (t1FB, t2FB, t1Total, t2Total)
+        
 def getShooter():
     randInt = random.randint(0,999999)
     ballFirst = tipData[randInt]['Player']
@@ -701,6 +735,14 @@ else:
     (t1Chance,t2Chance) = getAllBaskets()
 print(t1Chance)
 print(t2Chance)
+(t1FB, t2FB, t1Total, t2Total) = getTeamBaskets()
+print('------- Team 1 -------')
+for result in t1FB.keys():
+    print(result + ':\t' + str(round((t1FB[result]/t1Total)*100, 3)) + '% chance:\t+' + str(round(((1/(t1FB[result]/(t1Total)))-1)*100)) + ' odds')
+print('------- Team 2 -------')
+for result in t2FB.keys():
+    print(result + ':\t' + str(round((t2FB[result]/t2Total)*100, 3)) + '% chance:\t+' + str(round(((1/(t2FB[result]/(t2Total)))-1)*100)) + ' odds')
+print('\n')
 for i in range(10000000):
     getShooter()
 fbResults = sorted(fbResults)
