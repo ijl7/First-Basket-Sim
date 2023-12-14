@@ -8,7 +8,7 @@ Alex Len 				|	9	|	3	|	0.25
 Alperen Sengun 			|	42	|	28	|	0.4
 Andre Drummond 			|	9	|	27	|	0.75
 Andrew Wiggins 			|	0	|	2	|	1.0
-Anthony Davis 			|	38	|	59	|	0.608
+Anthony Davis 			|	38	|	60	|	0.612
 Anthony Gill 			|	1	|	0	|	0.0
 Bam Adebayo 			|	54	|	91	|	0.628
 Ben Simmons 			|	4	|	2	|	0.333
@@ -40,11 +40,11 @@ DeAndre Jordan 			|	12	|	17	|	0.586
 DeMarcus Cousins 		|	4	|	2	|	0.333
 Deandre Ayton 			|	42	|	99	|	0.702
 Deni Avdija 			|	1	|	0	|	0.0
-Dereck Lively II 		|	10	|	9	|	0.474
+Dereck Lively II 		|	11	|	9	|	0.45
 Derrick Favors 			|	10	|	8	|	0.444
 Devin Vassell 			|	0	|	1	|	1.0
 Dewayne Dedmon 			|	13	|	3	|	0.188
-Domantas Sabonis 		|	87	|	34	|	0.281
+Domantas Sabonis 		|	88	|	34	|	0.279
 Dorian Finney-Smith 	|	4	|	0	|	0.0
 Draymond Green 			|	5	|	1	|	0.167
 Drew Eubanks 			|	34	|	25	|	0.424
@@ -67,7 +67,7 @@ Isaiah Jackson 			|	14	|	12	|	0.462
 Isaiah Roby 			|	22	|	6	|	0.214
 Isaiah Stewart 			|	57	|	28	|	0.329
 Isaiah Todd 			|	1	|	0	|	0.0
-Ivica Zubac 			|	107	|	67	|	0.385
+Ivica Zubac 			|	107	|	68	|	0.389
 JaMychal Green 			|	1	|	2	|	0.667
 JaVale McGee 			|	10	|	14	|	0.583
 Jabari Smith Jr. 		|	23	|	12	|	0.343
@@ -78,7 +78,7 @@ Jalen Smith 			|	5	|	8	|	0.615
 Jalen Williams 			|	1	|	0	|	0.0
 James Wiseman 			|	10	|	12	|	0.545
 Jaren Jackson Jr. 		|	22	|	42	|	0.656
-Jarrett Allen 			|	44	|	97	|	0.688
+Jarrett Allen 			|	44	|	98	|	0.69
 Jaxson Hayes 			|	0	|	1	|	1.0
 Jaylin Williams 		|	23	|	12	|	0.343
 Jeff Green 				|	3	|	3	|	0.5
@@ -89,7 +89,7 @@ Joel Embiid 			|	61	|	92	|	0.601
 John Collins 			|	2	|	2	|	0.5
 Jonas Valanciunas 		|	82	|	94	|	0.534
 Jonathan Kuminga 		|	7	|	1	|	0.125
-Jusuf Nurkic 			|	39	|	90	|	0.698
+Jusuf Nurkic 			|	39	|	91	|	0.7
 Karl-Anthony Towns 		|	38	|	41	|	0.519
 Kelly Olynyk 			|	25	|	13	|	0.342
 Kenneth Lofton Jr. 		|	1	|	0	|	0.0
@@ -97,9 +97,9 @@ Kenrich Williams 		|	5	|	0	|	0.0
 Kevin Durant 			|	4	|	0	|	0.0
 Kevin Knox II 			|	1	|	0	|	0.0
 Kevin Porter Jr. 		|	0	|	1	|	1.0
-Kevon Looney 			|	92	|	76	|	0.452
+Kevon Looney 			|	93	|	76	|	0.45
 Khem Birch 				|	1	|	1	|	0.5
-Kristaps Porzingis 		|	35	|	93	|	0.727
+Kristaps Porzingis 		|	36	|	93	|	0.721
 LaMarcus Aldridge 		|	6	|	6	|	0.5
 LaMelo Ball 			|	1	|	0	|	0.0
 Larry Nance Jr. 		|	3	|	1	|	0.25
@@ -128,9 +128,9 @@ Naz Reid 				|	11	|	6	|	0.353
 Nerlens Noel 			|	9	|	6	|	0.4
 Nic Claxton 			|	50	|	55	|	0.524
 Nick Richards 			|	9	|	7	|	0.438
-Nikola Jokic 			|	79	|	84	|	0.515
+Nikola Jokic 			|	79	|	85	|	0.518
 Nikola Jovic 			|	3	|	0	|	0.0
-Nikola Vucevic 			|	110	|	66	|	0.375
+Nikola Vucevic 			|	111	|	66	|	0.373
 Noah Vonleh 			|	1	|	0	|	0.0
 Obi Toppin 				|	0	|	1	|	1.0
 Olivier Sarr 			|	2	|	1	|	0.333
