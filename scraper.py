@@ -1,7 +1,7 @@
 import nba_scraper.nba_scraper as ns
 
-i = 22300415
-while i < 22300420:
+i = 22300421
+while i < 22300435:
     try:
         ns.scrape_game([i], data_format='csv', data_dir="2023")
     except:
