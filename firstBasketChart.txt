@@ -1,13 +1,13 @@
 Team	|	Player						|	St.	|	Shots	|	FB	|	FB%
 ATL		|	Bogdan Bogdanovic			|	42	|	8		|	4	|	0.5
-ATL		|	Clint Capela				|	180	|	25		|	18	|	0.72
+ATL		|	Clint Capela				|	181	|	25		|	18	|	0.72
 ATL		|	De'Andre Hunter				|	143	|	30		|	15	|	0.5
-ATL		|	Dejounte Murray				|	187	|	44		|	22	|	0.5
+ATL		|	Dejounte Murray				|	188	|	44		|	22	|	0.5
 ATL		|	Garrison Mathews			|	36	|	8		|	2	|	0.25
-ATL		|	Jalen Johnson				|	35	|	7		|	7	|	1.0
+ATL		|	Jalen Johnson				|	36	|	7		|	7	|	1.0
 ATL		|	Onyeka Okongwu				|	27	|	4		|	2	|	0.5
-ATL		|	Saddiq Bey					|	153	|	40		|	10	|	0.25
-ATL		|	Trae Young					|	190	|	40		|	20	|	0.5
+ATL		|	Saddiq Bey					|	154	|	40		|	10	|	0.25
+ATL		|	Trae Young					|	191	|	40		|	20	|	0.5
 ATL		|	Wesley Matthews				|	15	|	2		|	1	|	0.5
 BKN		|	Ben Simmons					|	39	|	18		|	10	|	0.556
 BKN		|	Cam Thomas					|	28	|	10		|	4	|	0.4
@@ -21,11 +21,11 @@ BKN		|	Royce O'Neale				|	135	|	23		|	8	|	0.348
 BKN		|	Spencer Dinwiddie			|	174	|	26		|	7	|	0.269
 BOS		|	Al Horford					|	150	|	39		|	18	|	0.462
 BOS		|	Dalano Banton				|	4	|	1		|	0	|	0.0
-BOS		|	Derrick White				|	164	|	22		|	5	|	0.227
-BOS		|	Jaylen Brown				|	175	|	71		|	35	|	0.493
-BOS		|	Jayson Tatum				|	192	|	48		|	24	|	0.5
-BOS		|	Jrue Holiday				|	171	|	45		|	22	|	0.489
-BOS		|	Kristaps Porzingis			|	148	|	58		|	31	|	0.534
+BOS		|	Derrick White				|	165	|	23		|	5	|	0.217
+BOS		|	Jaylen Brown				|	176	|	71		|	35	|	0.493
+BOS		|	Jayson Tatum				|	193	|	48		|	24	|	0.5
+BOS		|	Jrue Holiday				|	172	|	45		|	22	|	0.489
+BOS		|	Kristaps Porzingis			|	149	|	59		|	32	|	0.542
 BOS		|	Lamar Stevens				|	39	|	6		|	2	|	0.333
 BOS		|	Luke Kornet					|	3	|	0		|	0	|	0
 BOS		|	Payton Pritchard			|	5	|	0		|	0	|	0
@@ -43,13 +43,13 @@ CHA		|	Nick Richards				|	37	|	4		|	2	|	0.5
 CHA		|	P.J. Washington				|	118	|	21		|	7	|	0.333
 CHA		|	Terry Rozier				|	169	|	28		|	13	|	0.464
 CHA		|	Theo Maledon				|	15	|	1		|	0	|	0.0
-CHI		|	Alex Caruso					|	82	|	6		|	4	|	0.667
+CHI		|	Alex Caruso					|	83	|	6		|	4	|	0.667
 CHI		|	Andre Drummond				|	43	|	10		|	7	|	0.7
-CHI		|	Ayo Dosunmu					|	97	|	7		|	5	|	0.714
-CHI		|	Coby White					|	67	|	18		|	5	|	0.278
+CHI		|	Ayo Dosunmu					|	98	|	7		|	5	|	0.714
+CHI		|	Coby White					|	68	|	18		|	5	|	0.278
 CHI		|	Dalen Terry					|	1	|	0		|	0	|	0
-CHI		|	DeMar DeRozan				|	195	|	34		|	15	|	0.441
-CHI		|	Nikola Vucevic				|	195	|	61		|	32	|	0.525
+CHI		|	DeMar DeRozan				|	196	|	34		|	15	|	0.441
+CHI		|	Nikola Vucevic				|	196	|	61		|	32	|	0.525
 CHI		|	Patrick Williams			|	104	|	24		|	9	|	0.375
 CHI		|	Torrey Craig				|	82	|	14		|	6	|	0.429
 CHI		|	Zach LaVine					|	167	|	39		|	19	|	0.487
@@ -97,16 +97,16 @@ DET		|	Jalen Duren					|	61	|	11		|	7	|	0.636
 DET		|	Kevin Knox II				|	13	|	2		|	2	|	1.0
 DET		|	Killian Hayes				|	126	|	16		|	6	|	0.375
 DET		|	Marvin Bagley III			|	61	|	20		|	11	|	0.55
-GSW		|	Andrew Wiggins				|	138	|	43		|	21	|	0.488
-GSW		|	Brandin Podziemski			|	10	|	0		|	0	|	0
+GSW		|	Andrew Wiggins				|	139	|	44		|	22	|	0.5
+GSW		|	Brandin Podziemski			|	11	|	0		|	0	|	0
 GSW		|	Chris Paul					|	134	|	13		|	5	|	0.385
 GSW		|	Dario Saric					|	21	|	1		|	1	|	1.0
-GSW		|	Draymond Green				|	132	|	23		|	13	|	0.565
-GSW		|	Jonathan Kuminga			|	44	|	10		|	8	|	0.8
+GSW		|	Draymond Green				|	133	|	23		|	13	|	0.565
+GSW		|	Jonathan Kuminga			|	45	|	10		|	8	|	0.8
 GSW		|	Kevon Looney				|	185	|	21		|	14	|	0.667
 GSW		|	Klay Thompson				|	142	|	52		|	21	|	0.404
 GSW		|	Moses Moody					|	18	|	5		|	2	|	0.4
-GSW		|	Stephen Curry				|	159	|	21		|	8	|	0.381
+GSW		|	Stephen Curry				|	160	|	21		|	8	|	0.381
 GSW		|	Trayce Jackson-Davis		|	3	|	1		|	1	|	1.0
 HOU		|	Aaron Holiday				|	22	|	7		|	5	|	0.714
 HOU		|	Alperen Sengun				|	131	|	31		|	21	|	0.677
@@ -118,18 +118,18 @@ HOU		|	Jabari Smith Jr.			|	120	|	18		|	7	|	0.389
 HOU		|	Jae'Sean Tate				|	93	|	22		|	11	|	0.5
 HOU		|	Jalen Green					|	189	|	33		|	13	|	0.394
 HOU		|	Jeff Green					|	71	|	7		|	4	|	0.571
-IND		|	Aaron Nesmith				|	79	|	11		|	5	|	0.455
+IND		|	Aaron Nesmith				|	80	|	11		|	5	|	0.455
 IND		|	Andrew Nembhard				|	77	|	11		|	6	|	0.545
 IND		|	Bennedict Mathurin			|	30	|	5		|	1	|	0.2
-IND		|	Bruce Brown					|	110	|	23		|	9	|	0.391
-IND		|	Buddy Hield					|	130	|	25		|	10	|	0.4
+IND		|	Bruce Brown					|	111	|	24		|	10	|	0.417
+IND		|	Buddy Hield					|	131	|	25		|	10	|	0.4
 IND		|	Isaiah Jackson				|	27	|	6		|	3	|	0.5
 IND		|	Jalen Smith					|	51	|	10		|	6	|	0.6
-IND		|	Myles Turner				|	147	|	35		|	23	|	0.657
+IND		|	Myles Turner				|	148	|	35		|	23	|	0.657
 IND		|	Obi Toppin					|	41	|	8		|	5	|	0.625
-IND		|	Pascal Siakam				|	184	|	55		|	27	|	0.491
+IND		|	Pascal Siakam				|	185	|	55		|	27	|	0.491
 IND		|	T.J. McConnell				|	18	|	3		|	1	|	0.333
-IND		|	Tyrese Haliburton			|	164	|	11		|	8	|	0.727
+IND		|	Tyrese Haliburton			|	165	|	11		|	8	|	0.727
 LAC		|	Amir Coffey					|	45	|	2		|	0	|	0.0
 LAC		|	Bones Hyland				|	7	|	2		|	1	|	0.5
 LAC		|	Daniel Theis				|	29	|	14		|	7	|	0.5
@@ -142,16 +142,16 @@ LAC		|	Robert Covington			|	48	|	9		|	4	|	0.444
 LAC		|	Russell Westbrook			|	113	|	20		|	7	|	0.35
 LAC		|	Terance Mann				|	104	|	15		|	8	|	0.533
 LAL		|	Anthony Davis				|	140	|	51		|	25	|	0.49
-LAL		|	Austin Reaves				|	64	|	8		|	0	|	0.0
+LAL		|	Austin Reaves				|	65	|	9		|	1	|	0.111
 LAL		|	Cam Reddish					|	53	|	10		|	2	|	0.2
 LAL		|	Christian Wood				|	85	|	21		|	12	|	0.571
-LAL		|	D'Angelo Russell			|	173	|	50		|	22	|	0.44
+LAL		|	D'Angelo Russell			|	174	|	50		|	22	|	0.44
 LAL		|	Jarred Vanderbilt			|	137	|	16		|	10	|	0.625
-LAL		|	Jaxson Hayes				|	31	|	2		|	2	|	1.0
-LAL		|	LeBron James				|	152	|	46		|	22	|	0.478
+LAL		|	Jaxson Hayes				|	32	|	2		|	2	|	1.0
+LAL		|	LeBron James				|	153	|	46		|	22	|	0.478
 LAL		|	Max Christie				|	9	|	3		|	1	|	0.333
 LAL		|	Rui Hachimura				|	29	|	8		|	5	|	0.625
-LAL		|	Taurean Prince				|	57	|	8		|	3	|	0.375
+LAL		|	Taurean Prince				|	58	|	8		|	3	|	0.375
 MEM		|	Bismack Biyombo				|	43	|	8		|	3	|	0.375
 MEM		|	David Roddy					|	16	|	7		|	4	|	0.571
 MEM		|	Derrick Rose				|	11	|	4		|	0	|	0.0
@@ -213,16 +213,16 @@ NOP		|	Matt Ryan					|	1	|	0		|	0	|	0
 NOP		|	Naji Marshall				|	26	|	1		|	0	|	0.0
 NOP		|	Trey Murphy III				|	69	|	9		|	4	|	0.444
 NOP		|	Zion Williamson				|	67	|	9		|	5	|	0.556
-NYK		|	Donte DiVincenzo			|	65	|	11		|	6	|	0.545
-NYK		|	Isaiah Hartenstein			|	27	|	3		|	0	|	0.0
-NYK		|	Jalen Brunson				|	174	|	58		|	24	|	0.414
+NYK		|	Donte DiVincenzo			|	66	|	11		|	6	|	0.545
+NYK		|	Isaiah Hartenstein			|	28	|	4		|	1	|	0.25
+NYK		|	Jalen Brunson				|	175	|	58		|	24	|	0.414
 NYK		|	Jericho Sims				|	28	|	0		|	0	|	0
-NYK		|	Josh Hart					|	112	|	13		|	6	|	0.462
+NYK		|	Josh Hart					|	113	|	13		|	6	|	0.462
 NYK		|	Julius Randle				|	195	|	73		|	30	|	0.411
 NYK		|	Miles McBride				|	6	|	4		|	0	|	0.0
 NYK		|	Mitchell Robinson			|	140	|	21		|	12	|	0.571
 NYK		|	OG Anunoby					|	39	|	10		|	4	|	0.4
-NYK		|	Precious Achiuwa			|	41	|	8		|	3	|	0.375
+NYK		|	Precious Achiuwa			|	42	|	8		|	3	|	0.375
 NYK		|	Quentin Grimes				|	90	|	5		|	3	|	0.6
 NYK		|	RJ Barrett					|	181	|	48		|	18	|	0.375
 OKC		|	Cason Wallace				|	7	|	1		|	1	|	1.0
@@ -243,16 +243,17 @@ ORL		|	Markelle Fultz				|	71	|	12		|	4	|	0.333
 ORL		|	Moritz Wagner				|	22	|	3		|	1	|	0.333
 ORL		|	Paolo Banchero				|	119	|	33		|	14	|	0.424
 ORL		|	Wendell Carter Jr.			|	129	|	41		|	18	|	0.439
+PHI		|	Danuel House Jr.			|	12	|	2		|	2	|	1.0
 PHI		|	De'Anthony Melton			|	106	|	17		|	9	|	0.529
-PHI		|	Joel Embiid					|	167	|	82		|	41	|	0.5
-PHI		|	Kelly Oubre Jr.				|	75	|	23		|	11	|	0.478
+PHI		|	Joel Embiid					|	168	|	83		|	41	|	0.494
+PHI		|	Kelly Oubre Jr.				|	76	|	23		|	11	|	0.478
 PHI		|	Marcus Morris Sr.			|	125	|	27		|	14	|	0.519
 PHI		|	Nicolas Batum				|	100	|	10		|	6	|	0.6
 PHI		|	P.J. Tucker					|	148	|	21		|	8	|	0.381
-PHI		|	Patrick Beverley			|	124	|	25		|	9	|	0.36
+PHI		|	Patrick Beverley			|	125	|	25		|	9	|	0.36
 PHI		|	Paul Reed					|	14	|	3		|	2	|	0.667
 PHI		|	Robert Covington			|	48	|	9		|	4	|	0.444
-PHI		|	Tobias Harris				|	189	|	40		|	19	|	0.475
+PHI		|	Tobias Harris				|	190	|	40		|	19	|	0.475
 PHI		|	Tyrese Maxey				|	157	|	30		|	12	|	0.4
 PHX		|	Bradley Beal				|	113	|	27		|	18	|	0.667
 PHX		|	Chimezie Metu				|	25	|	6		|	1	|	0.167
@@ -297,9 +298,9 @@ SAS		|	Malaki Branham				|	53	|	12		|	8	|	0.667
 SAS		|	Tre Jones					|	89	|	12		|	7	|	0.583
 SAS		|	Victor Wembanyama			|	41	|	11		|	5	|	0.455
 SAS		|	Zach Collins				|	54	|	15		|	6	|	0.4
-TOR		|	Bruce Brown					|	110	|	23		|	9	|	0.391
-TOR		|	Dennis Schroder				|	111	|	15		|	6	|	0.4
-TOR		|	Gary Trent Jr.				|	124	|	25		|	11	|	0.44
+TOR		|	Bruce Brown					|	111	|	24		|	10	|	0.417
+TOR		|	Dennis Schroder				|	112	|	15		|	6	|	0.4
+TOR		|	Gary Trent Jr.				|	125	|	26		|	11	|	0.423
 TOR		|	Gradey Dick					|	1	|	0		|	0	|	0
 TOR		|	Immanuel Quickley			|	36	|	9		|	4	|	0.444
 TOR		|	Jakob Poeltl				|	174	|	32		|	20	|	0.625
@@ -307,20 +308,20 @@ TOR		|	Jontay Porter				|	5	|	1		|	0	|	0.0
 TOR		|	O.G. Anunoby				|	117	|	28		|	9	|	0.321
 TOR		|	OG Anunoby					|	39	|	10		|	4	|	0.4
 TOR		|	Otto Porter Jr.				|	18	|	1		|	1	|	1.0
-TOR		|	Pascal Siakam				|	184	|	55		|	27	|	0.491
+TOR		|	Pascal Siakam				|	185	|	55		|	27	|	0.491
 TOR		|	RJ Barrett					|	181	|	48		|	18	|	0.375
-TOR		|	Scottie Barnes				|	196	|	46		|	25	|	0.543
-TOR		|	Thaddeus Young				|	15	|	1		|	1	|	1.0
-UTA		|	Collin Sexton				|	51	|	2		|	1	|	0.5
-UTA		|	John Collins				|	166	|	32		|	12	|	0.375
+TOR		|	Scottie Barnes				|	197	|	46		|	25	|	0.543
+TOR		|	Thaddeus Young				|	16	|	1		|	1	|	1.0
+UTA		|	Collin Sexton				|	52	|	2		|	1	|	0.5
+UTA		|	John Collins				|	167	|	32		|	12	|	0.375
 UTA		|	Jordan Clarkson				|	81	|	10		|	2	|	0.2
 UTA		|	Kelly Olynyk				|	77	|	13		|	5	|	0.385
 UTA		|	Keyonte George				|	16	|	3		|	0	|	0.0
-UTA		|	Kris Dunn					|	28	|	4		|	2	|	0.5
-UTA		|	Lauri Markkanen				|	165	|	62		|	19	|	0.306
+UTA		|	Kris Dunn					|	29	|	4		|	2	|	0.5
+UTA		|	Lauri Markkanen				|	166	|	62		|	19	|	0.306
 UTA		|	Ochai Agbaji				|	32	|	4		|	1	|	0.25
 UTA		|	Omer Yurtseven				|	18	|	5		|	3	|	0.6
-UTA		|	Simone Fontecchio			|	36	|	8		|	1	|	0.125
+UTA		|	Simone Fontecchio			|	37	|	8		|	1	|	0.125
 UTA		|	Talen Horton-Tucker			|	50	|	12		|	4	|	0.333
 UTA		|	Walker Kessler				|	53	|	8		|	7	|	0.875
 WAS		|	Bilal Coulibaly				|	1	|	0		|	0	|	0
