@@ -8,7 +8,7 @@ Alex Len 				|	9	|	3	|	0.25
 Alperen Sengun 			|	59	|	41	|	0.41
 Andre Drummond 			|	11	|	33	|	0.75
 Andrew Wiggins 			|	0	|	2	|	1.0
-Anthony Davis 			|	48	|	75	|	0.61
+Anthony Davis 			|	49	|	75	|	0.605
 Anthony Gill 			|	1	|	0	|	0.0
 Bam Adebayo 			|	61	|	110	|	0.643
 Ben Simmons 			|	4	|	2	|	0.333
@@ -17,7 +17,7 @@ Blake Griffin 			|	20	|	10	|	0.333
 Bobby Portis 			|	33	|	25	|	0.431
 Bol Bol 				|	15	|	18	|	0.545
 Brandon Clarke 			|	1	|	0	|	0.0
-Brook Lopez 			|	50	|	86	|	0.632
+Brook Lopez 			|	50	|	87	|	0.635
 Bruno Fernando 			|	3	|	1	|	0.25
 Cameron Payne 			|	0	|	1	|	1.0
 Charles Bassey 			|	1	|	1	|	0.5
@@ -48,7 +48,7 @@ Dewayne Dedmon 			|	13	|	3	|	0.188
 Domantas Sabonis 		|	109	|	41	|	0.273
 Dominick Barlow 		|	0	|	1	|	1.0
 Dorian Finney-Smith 	|	4	|	0	|	0.0
-Draymond Green 			|	9	|	2	|	0.182
+Draymond Green 			|	10	|	2	|	0.167
 Drew Eubanks 			|	34	|	28	|	0.452
 Duop Reath 				|	9	|	2	|	0.182
 Dwight Howard 			|	13	|	14	|	0.519
@@ -65,7 +65,7 @@ Goga Bitadze 			|	34	|	14	|	0.292
 Gorgui Dieng 			|	0	|	2	|	1.0
 Hassan Whiteside 		|	3	|	5	|	0.625
 Ibou Badji 				|	1	|	0	|	0.0
-Isaiah Hartenstein 		|	23	|	8	|	0.258
+Isaiah Hartenstein 		|	24	|	8	|	0.25
 Isaiah Jackson 			|	16	|	12	|	0.429
 Isaiah Roby 			|	22	|	6	|	0.214
 Isaiah Stewart 			|	58	|	30	|	0.341
@@ -74,14 +74,15 @@ Ivica Zubac 			|	118	|	74	|	0.385
 JaMychal Green 			|	1	|	2	|	0.667
 JaVale McGee 			|	10	|	14	|	0.583
 Jabari Smith Jr. 		|	23	|	12	|	0.343
+Jabari Walker 			|	1	|	0	|	0.0
 Jaden Ivey 				|	0	|	1	|	1.0
 Jakob Poeltl 			|	83	|	94	|	0.531
-Jalen Duren 			|	33	|	28	|	0.459
+Jalen Duren 			|	33	|	29	|	0.468
 Jalen Smith 			|	6	|	8	|	0.571
 Jalen Williams 			|	1	|	0	|	0.0
 James Wiseman 			|	10	|	12	|	0.545
-Jaren Jackson Jr. 		|	29	|	59	|	0.67
-Jarrett Allen 			|	48	|	119	|	0.713
+Jaren Jackson Jr. 		|	29	|	60	|	0.674
+Jarrett Allen 			|	49	|	119	|	0.708
 Jaxson Hayes 			|	3	|	1	|	0.25
 Jaylin Williams 		|	23	|	12	|	0.343
 Jeff Green 				|	3	|	3	|	0.5
@@ -92,7 +93,7 @@ Joel Embiid 			|	66	|	102	|	0.607
 John Collins 			|	15	|	11	|	0.423
 Jonas Valanciunas 		|	97	|	106	|	0.522
 Jonathan Kuminga 		|	8	|	1	|	0.111
-Jusuf Nurkic 			|	45	|	110	|	0.71
+Jusuf Nurkic 			|	45	|	111	|	0.712
 Karl-Anthony Towns 		|	39	|	41	|	0.512
 Kelly Olynyk 			|	26	|	13	|	0.333
 Kenneth Lofton Jr. 		|	1	|	0	|	0.0
@@ -118,7 +119,7 @@ Mark Williams 			|	17	|	19	|	0.528
 Markieff Morris 		|	0	|	1	|	1.0
 Marvin Bagley III 		|	18	|	16	|	0.471
 Mason Plumlee 			|	82	|	59	|	0.418
-Maxi Kleber 			|	3	|	1	|	0.25
+Maxi Kleber 			|	3	|	2	|	0.4
 Meyers Leonard 			|	0	|	2	|	1.0
 Mike Muscala 			|	5	|	3	|	0.375
 Mitchell Robinson 		|	52	|	88	|	0.629
@@ -127,15 +128,15 @@ Montrezl Harrell 		|	8	|	2	|	0.2
 Moritz Wagner 			|	3	|	1	|	0.25
 Moses Brown 			|	5	|	6	|	0.545
 Moussa Diabate 			|	1	|	0	|	0.0
-Myles Turner 			|	94	|	56	|	0.373
+Myles Turner 			|	94	|	57	|	0.377
 Nathan Knight 			|	2	|	0	|	0.0
 Naz Reid 				|	11	|	6	|	0.353
 Nerlens Noel 			|	9	|	6	|	0.4
-Nic Claxton 			|	62	|	70	|	0.53
+Nic Claxton 			|	62	|	71	|	0.534
 Nick Richards 			|	25	|	17	|	0.405
-Nikola Jokic 			|	91	|	97	|	0.516
+Nikola Jokic 			|	91	|	98	|	0.519
 Nikola Jovic 			|	3	|	0	|	0.0
-Nikola Vucevic 			|	123	|	72	|	0.369
+Nikola Vucevic 			|	124	|	72	|	0.367
 Noah Vonleh 			|	1	|	0	|	0.0
 Obi Toppin 				|	0	|	1	|	1.0
 Olivier Sarr 			|	2	|	1	|	0.333
@@ -151,7 +152,7 @@ Richaun Holmes 			|	15	|	23	|	0.605
 Robert Williams III 	|	24	|	55	|	0.696
 Robin Lopez 			|	3	|	10	|	0.769
 Royce O'Neale 			|	0	|	2	|	1.0
-Rudy Gobert 			|	80	|	101	|	0.558
+Rudy Gobert 			|	81	|	101	|	0.555
 Rui Hachimura 			|	0	|	1	|	1.0
 Sam Hauser 				|	0	|	1	|	1.0
 Sandro Mamukelashvili 	|	8	|	0	|	0.0
@@ -177,9 +178,9 @@ Udoka Azubuike 			|	3	|	6	|	0.667
 Udonis Haslem 			|	1	|	0	|	0.0
 Usman Garuba 			|	2	|	1	|	0.333
 Vernon Carey Jr. 		|	0	|	1	|	1.0
-Victor Wembanyama 		|	17	|	28	|	0.622
-Walker Kessler 			|	20	|	33	|	0.623
-Wendell Carter Jr. 		|	30	|	36	|	0.545
+Victor Wembanyama 		|	17	|	29	|	0.63
+Walker Kessler 			|	21	|	33	|	0.611
+Wendell Carter Jr. 		|	31	|	36	|	0.537
 Wenyen Gabriel 			|	1	|	0	|	0.0
 Willy Hernangomez 		|	5	|	5	|	0.5
 Xavier Tillman 			|	2	|	1	|	0.333
