@@ -334,7 +334,7 @@ def get2023():
                         break
                     elif '2' == row['eventmsgtype']:
                         playerShots[row['player1_name']] += 1
-        if i != 22300776:
+        if i != 22300789:
             i += 1
         else:
             i = 22301201
@@ -541,7 +541,7 @@ def getAllBaskets():
                                 t2Chance.append(row['player1_name'] + ' Miss')
                             elif row['eventmsgtype'] == '1':
                                 t2Chance.append(row['player1_name'] + ' Make')
-        if i != 22300776:
+        if i != 22300789:
             i += 1
         else:
             i = 22301201
