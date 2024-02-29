@@ -171,14 +171,15 @@ MEM		|	Jacob Gilyard				|	14	|	2		|	2	|	1.0
 MEM		|	Jaren Jackson Jr.			|	191	|	66		|	32	|	0.485
 MEM		|	Jaylen Nowell				|	4	|	1		|	1	|	1.0
 MEM		|	John Konchar				|	45	|	3		|	1	|	0.333
+MEM		|	Jordan Goodwin				|	8	|	0		|	0	|	0
 MEM		|	Luke Kennard				|	38	|	7		|	4	|	0.571
 MEM		|	Marcus Smart				|	150	|	34		|	14	|	0.412
-MEM		|	Santi Aldama				|	37	|	3		|	3	|	1.0
+MEM		|	Santi Aldama				|	38	|	3		|	3	|	1.0
 MEM		|	Scotty Pippen Jr.			|	4	|	0		|	0	|	0
-MEM		|	Trey Jemison				|	2	|	0		|	0	|	0
-MEM		|	Vince Williams Jr.			|	24	|	6		|	3	|	0.5
+MEM		|	Trey Jemison				|	3	|	0		|	0	|	0
+MEM		|	Vince Williams Jr.			|	25	|	7		|	3	|	0.429
 MEM		|	Xavier Tillman				|	44	|	11		|	10	|	0.909
-MEM		|	Ziaire Williams				|	44	|	10		|	6	|	0.6
+MEM		|	Ziaire Williams				|	45	|	10		|	6	|	0.6
 MIA		|	Bam Adebayo					|	175	|	71		|	31	|	0.437
 MIA		|	Caleb Martin				|	77	|	11		|	6	|	0.545
 MIA		|	Duncan Robinson				|	88	|	24		|	9	|	0.375
@@ -197,24 +198,24 @@ MIA		|	Thomas Bryant				|	38	|	6		|	4	|	0.667
 MIA		|	Tyler Herro					|	111	|	21		|	6	|	0.286
 MIL		|	Andre Jackson Jr.			|	8	|	2		|	0	|	0.0
 MIL		|	Bobby Portis				|	82	|	28		|	14	|	0.5
-MIL		|	Brook Lopez					|	141	|	38		|	14	|	0.368
+MIL		|	Brook Lopez					|	142	|	38		|	14	|	0.368
 MIL		|	Cameron Payne				|	31	|	8		|	2	|	0.25
-MIL		|	Damian Lillard				|	137	|	40		|	13	|	0.325
-MIL		|	Giannis Antetokounmpo		|	183	|	44		|	23	|	0.523
-MIL		|	Jae Crowder					|	77	|	23		|	13	|	0.565
+MIL		|	Damian Lillard				|	138	|	42		|	14	|	0.333
+MIL		|	Giannis Antetokounmpo		|	184	|	44		|	23	|	0.523
+MIL		|	Jae Crowder					|	78	|	23		|	13	|	0.565
 MIL		|	Khris Middleton				|	128	|	26		|	13	|	0.5
-MIL		|	Malik Beasley				|	98	|	22		|	10	|	0.455
+MIL		|	Malik Beasley				|	99	|	22		|	10	|	0.455
 MIL		|	MarJon Beauchamp			|	12	|	4		|	2	|	0.5
 MIL		|	Pat Connaughton				|	54	|	13		|	6	|	0.462
 MIL		|	Robin Lopez					|	13	|	5		|	1	|	0.2
-MIN		|	Anthony Edwards				|	202	|	57		|	23	|	0.404
-MIN		|	Jaden McDaniels				|	153	|	30		|	15	|	0.5
-MIN		|	Karl-Anthony Towns			|	156	|	52		|	25	|	0.481
+MIN		|	Anthony Edwards				|	203	|	57		|	23	|	0.404
+MIN		|	Jaden McDaniels				|	154	|	30		|	15	|	0.5
+MIN		|	Karl-Anthony Towns			|	157	|	52		|	25	|	0.481
 MIN		|	Kyle Anderson				|	59	|	10		|	4	|	0.4
-MIN		|	Mike Conley					|	186	|	35		|	15	|	0.429
+MIN		|	Mike Conley					|	187	|	35		|	15	|	0.429
 MIN		|	Naz Reid					|	18	|	4		|	2	|	0.5
 MIN		|	Nickeil Alexander-Walker	|	40	|	6		|	1	|	0.167
-MIN		|	Rudy Gobert					|	187	|	39		|	27	|	0.692
+MIN		|	Rudy Gobert					|	188	|	39		|	27	|	0.692
 MIN		|	Troy Brown Jr.				|	56	|	14		|	3	|	0.214
 NOP		|	Brandon Ingram				|	151	|	43		|	27	|	0.628
 NOP		|	CJ McCollum					|	178	|	35		|	17	|	0.486
@@ -287,21 +288,21 @@ PHX		|	Jusuf Nurkic				|	160	|	56		|	22	|	0.393
 PHX		|	Keita Bates-Diop			|	64	|	5		|	1	|	0.2
 PHX		|	Kevin Durant				|	150	|	35		|	17	|	0.486
 PHX		|	Nassir Little				|	29	|	10		|	7	|	0.7
-POR		|	Anfernee Simons				|	122	|	22		|	7	|	0.318
+POR		|	Anfernee Simons				|	123	|	22		|	7	|	0.318
 POR		|	Ashton Hagans				|	1	|	0		|	0	|	0
-POR		|	Deandre Ayton				|	160	|	58		|	28	|	0.483
+POR		|	Deandre Ayton				|	161	|	58		|	28	|	0.483
 POR		|	Duop Reath					|	11	|	0		|	0	|	0
 POR		|	Ibou Badji					|	1	|	0		|	0	|	0
 POR		|	Jabari Walker				|	14	|	1		|	1	|	1.0
-POR		|	Jerami Grant				|	156	|	48		|	20	|	0.417
+POR		|	Jerami Grant				|	157	|	48		|	20	|	0.417
 POR		|	Kris Murray					|	1	|	0		|	0	|	0
 POR		|	Malcolm Brogdon				|	61	|	8		|	3	|	0.375
 POR		|	Matisse Thybulle			|	97	|	11		|	5	|	0.455
 POR		|	Moses Brown					|	11	|	1		|	1	|	1.0
-POR		|	Scoot Henderson				|	15	|	4		|	3	|	0.75
+POR		|	Scoot Henderson				|	16	|	4		|	3	|	0.75
 POR		|	Shaedon Sharpe				|	39	|	8		|	5	|	0.625
 POR		|	Skylar Mays					|	15	|	1		|	1	|	1.0
-POR		|	Toumani Camara				|	32	|	5		|	3	|	0.6
+POR		|	Toumani Camara				|	33	|	6		|	4	|	0.667
 SAC		|	Chris Duarte				|	61	|	12		|	8	|	0.667
 SAC		|	Davion Mitchell				|	31	|	7		|	5	|	0.714
 SAC		|	De'Aaron Fox				|	180	|	52		|	26	|	0.5

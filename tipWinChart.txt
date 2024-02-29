@@ -17,7 +17,7 @@ Blake Griffin 			|	20	|	10	|	0.333
 Bobby Portis 			|	33	|	25	|	0.431
 Bol Bol 				|	15	|	18	|	0.545
 Brandon Clarke 			|	1	|	0	|	0.0
-Brook Lopez 			|	52	|	88	|	0.629
+Brook Lopez 			|	52	|	89	|	0.631
 Bruno Fernando 			|	4	|	1	|	0.2
 Cameron Payne 			|	0	|	1	|	1.0
 Charles Bassey 			|	1	|	1	|	0.5
@@ -38,7 +38,7 @@ Darius Bazley 			|	2	|	2	|	0.5
 Day'Ron Sharpe 			|	8	|	4	|	0.333
 DeAndre Jordan 			|	12	|	17	|	0.586
 DeMarcus Cousins 		|	4	|	2	|	0.333
-Deandre Ayton 			|	52	|	107	|	0.673
+Deandre Ayton 			|	52	|	108	|	0.675
 Deni Avdija 			|	2	|	0	|	0.0
 Dereck Lively II 		|	18	|	17	|	0.486
 Derrick Favors 			|	10	|	8	|	0.444
@@ -152,7 +152,7 @@ Richaun Holmes 			|	15	|	23	|	0.605
 Robert Williams III 	|	24	|	55	|	0.696
 Robin Lopez 			|	3	|	10	|	0.769
 Royce O'Neale 			|	0	|	2	|	1.0
-Rudy Gobert 			|	82	|	102	|	0.554
+Rudy Gobert 			|	83	|	102	|	0.551
 Rui Hachimura 			|	0	|	1	|	1.0
 Sam Hauser 				|	0	|	1	|	1.0
 Sandro Mamukelashvili 	|	8	|	0	|	0.0
@@ -171,7 +171,7 @@ Tobias Harris 			|	6	|	0	|	0.0
 Tony Bradley 			|	3	|	4	|	0.571
 Trayce Jackson-Davis 	|	3	|	0	|	0.0
 Trey Burke 				|	1	|	0	|	0.0
-Trey Jemison 			|	2	|	0	|	0.0
+Trey Jemison 			|	3	|	0	|	0.0
 Trey Lyles 				|	2	|	1	|	0.333
 Tristan Thompson 		|	4	|	1	|	0.2
 Udoka Azubuike 			|	3	|	6	|	0.667
