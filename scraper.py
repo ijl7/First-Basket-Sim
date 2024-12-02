@@ -1,9 +1,9 @@
 import nba_scraper.nba_scraper as ns
 
-i = 22301100
-while i < 22301101:
+i = 22400315
+while i < 22400325:
     try:
-        ns.scrape_game([i], data_format='csv', data_dir="2023")
+        ns.scrape_game([i], data_format='csv', data_dir="2024")
     except:
         print('Game ' + str(i) + ' not added.')
         i += 1
@@ -13,6 +13,6 @@ while i < 22301101:
     i += 1
 
 #Missing Files
-#22100717, 22101171, 22200674, 22200714, 22300425, 22300589
+#22100717, 22101171, 22200674, 22200714, 22300425, 22300589, 22400050-60
 #Broken Files
 #22100773
