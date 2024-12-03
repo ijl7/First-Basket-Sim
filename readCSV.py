@@ -1,6 +1,7 @@
 import csv
 import math
 import random
+import replace_accents as replaceaccents
 #import scraper
 
 
@@ -206,8 +207,6 @@ def get2023():
 
                 homeLineup = []
                 awayLineup = []
-                homeTuple = ()
-                awayTuple = ()
 
                 for row in csvFile:
                     if '10' == row['eventmsgtype']:
@@ -296,26 +295,25 @@ def get2024():
     i = 22400001
     while i < 22400315:
         if i != 22400050:
-            with open('2024\\' + str(i) + '.csv', mode='r') as file:
+            with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
 
                 homeLineup = []
                 awayLineup = []
                 homeTuple = ()
                 awayTuple = ()
-
                 for row in csvFile:
                     if '10' == row['eventmsgtype']:
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
                         homeTeam = row['home_team_abbrev']
                         awayTeam = row['away_team_abbrev']
                         #add all players with their team
@@ -356,8 +354,8 @@ def get2024():
                         else:
                             teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
                         #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
-                        player1Name = row['player1_name']
-                        player2Name = row['player2_name']
+                        player1Name = replaceaccents.replace_accents_characters(row['player1_name'])
+                        player2Name = replaceaccents.replace_accents_characters(row['player2_name'])
                         homeWin = tipWin.__contains__(player1Name + ' Win')
                         homeLoss = tipWin.__contains__(player1Name + ' Loss')
                         awayWin = tipWin.__contains__(player2Name + ' Win')
@@ -388,13 +386,23 @@ def get2024():
                         break
 
                 for row in csvFile:
+                    player = replaceaccents.replace_accents_characters(row['player1_name'])
                     if '1' == row['eventmsgtype']:
                         #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                        playerShots[row['player1_name']] += 1
-                        firstBaskets[row['player1_name']] += 1
+                        if playerShots.__contains__(player):
+                            playerShots[player] += 1
+                        else:
+                            playerShots.__setitem__(player, 0)
+                        if firstBaskets.__contains__(player):
+                            firstBaskets[player] += 1
+                        else:
+                            firstBaskets.__setitem__(player, 0)
                         break
                     elif '2' == row['eventmsgtype']:
-                        playerShots[row['player1_name']] += 1
+                        if playerShots.__contains__(player):
+                            playerShots[player] += 1
+                        else:
+                            playerShots.__setitem__(player, 0)
         if i != 22400050:
             i += 1
         else:
@@ -549,24 +557,24 @@ def getAllBaskets():
     t2Chance = []
     i = 22400001
     useGame = True
-    while i < 22401230:
+    while i < 22400315:
         if i != 22400050 and useGame:
-            with open('2023\\' + str(i) + '.csv', mode='r') as file:
+            with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
                 for row in csvFile:
                     useLine = True
                     homeLineup = []
                     awayLineup = []
-                    homeLineup.append(row['home_player_1'])
-                    homeLineup.append(row['home_player_2'])
-                    homeLineup.append(row['home_player_3'])
-                    homeLineup.append(row['home_player_4'])
-                    homeLineup.append(row['home_player_5'])
-                    awayLineup.append(row['away_player_1'])
-                    awayLineup.append(row['away_player_2'])
-                    awayLineup.append(row['away_player_3'])
-                    awayLineup.append(row['away_player_4'])
-                    awayLineup.append(row['away_player_5'])
+                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
+                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
+                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
+                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
+                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
+                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
+                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
+                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
+                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
+                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
                     j = 0
                     while j < 5:
                         #check all players in the home and away lineup for line1
@@ -579,11 +587,11 @@ def getAllBaskets():
                         j += 1
                     if useLine:
                         #only add if the player you want is shooting
-                        if line1.__contains__(row['player1_name']):
+                        if line1.__contains__(replaceaccents.replace_accents_characters(row['player1_name'])):
                             if row['eventmsgtype'] == '2':
-                                t1Chance.append(row['player1_name'] + ' Miss')
+                                t1Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Miss')
                             elif row['eventmsgtype'] == '1':
-                                t1Chance.append(row['player1_name'] + ' Make')
+                                t1Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Make')
                     useLine = True
                     j = 0
                     while j < 5:
@@ -597,11 +605,11 @@ def getAllBaskets():
                         j += 1
                     if useLine:
                         #only add if the player you want is shooting
-                        if line2.__contains__(row['player1_name']):
+                        if line2.__contains__(replaceaccents.replace_accents_characters(row['player1_name'])):
                             if row['eventmsgtype'] == '2':
-                                t2Chance.append(row['player1_name'] + ' Miss')
+                                t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Miss')
                             elif row['eventmsgtype'] == '1':
-                                t2Chance.append(row['player1_name'] + ' Make')
+                                t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Make')
         if i != 22400050:
             i += 1
         else:
