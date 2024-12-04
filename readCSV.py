@@ -201,7 +201,7 @@ def get2022():
 def get2023():
     i = 22300001
     while i < 22301230:
-        if i != 22300425 and i != 22300576 and i != 22300589:
+        if i != 22300425 and i != 22300576 and i != 22300589 and i != 22301130:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
 
@@ -293,7 +293,7 @@ def get2023():
             i = 22301201
 def get2024():
     i = 22400001
-    while i < 22400315:
+    while i < 22400319:
         if i != 22400050:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
@@ -557,7 +557,7 @@ def getAllBaskets():
     t2Chance = []
     i = 22400001
     useGame = True
-    while i < 22400315:
+    while i < 22400319:
         if i != 22400050 and useGame:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
@@ -618,23 +618,23 @@ def getAllBaskets():
         i = 22300001
         useGame = True
         while i < 22301230:
-            if i != 22300425 and i != 22300576  and i != 22300589 and useGame:
-                with open('2023\\' + str(i) + '.csv', mode='r') as file:
+            if i != 22300425 and i != 22300576  and i != 22300589 and i != 22301130 and useGame:
+                with open('2023\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                     csvFile = csv.DictReader(file)
                     for row in csvFile:
                         useLine = True
                         homeLineup = []
                         awayLineup = []
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
                         j = 0
                         while j < 5:
                             #check all players in the home and away lineup for line1
