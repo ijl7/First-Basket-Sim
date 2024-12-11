@@ -9,10 +9,10 @@ Alexandre Sarr 			|	9	|	9	|	0.5
 Alperen Sengun 			|	75	|	57	|	0.432
 Andre Drummond 			|	16	|	41	|	0.719
 Andrew Wiggins 			|	0	|	2	|	1.0
-Anthony Davis 			|	70	|	94	|	0.573
+Anthony Davis 			|	71	|	94	|	0.57
 Anthony Edwards 		|	1	|	1	|	0.5
 Anthony Gill 			|	1	|	0	|	0.0
-Bam Adebayo 			|	77	|	133	|	0.633
+Bam Adebayo 			|	77	|	134	|	0.635
 Ben Simmons 			|	14	|	3	|	0.176
 Bismack Biyombo 		|	8	|	10	|	0.556
 Blake Griffin 			|	20	|	10	|	0.333
@@ -29,7 +29,7 @@ Chimezie Metu 			|	2	|	0	|	0.0
 Chris Boucher 			|	2	|	4	|	0.667
 Christian Koloko 		|	5	|	13	|	0.722
 Christian Wood 			|	28	|	50	|	0.641
-Clint Capela 			|	125	|	99	|	0.442
+Clint Capela 			|	125	|	100	|	0.444
 Coby White 				|	0	|	2	|	1.0
 Cody Zeller 			|	2	|	0	|	0.0
 D.J. Wilson 			|	0	|	1	|	1.0
@@ -126,7 +126,7 @@ Lauri Markkanen 		|	9	|	1	|	0.1
 LeBron James 			|	4	|	10	|	0.714
 Luguentz Dort 			|	2	|	0	|	0.0
 Luka Garza 				|	4	|	1	|	0.2
-Luke Kornet 			|	1	|	5	|	0.833
+Luke Kornet 			|	2	|	5	|	0.714
 Mamadi Diakite 			|	2	|	1	|	0.333
 Marcus Morris Sr. 		|	2	|	0	|	0.0
 Mark Williams 			|	17	|	19	|	0.528
@@ -147,11 +147,11 @@ Nathan Knight 			|	2	|	0	|	0.0
 Naz Reid 				|	14	|	6	|	0.3
 Neemias Queta 			|	3	|	2	|	0.4
 Nerlens Noel 			|	9	|	6	|	0.4
-Nic Claxton 			|	74	|	91	|	0.552
+Nic Claxton 			|	74	|	92	|	0.554
 Nick Richards 			|	38	|	32	|	0.457
 Nikola Jokic 			|	104	|	122	|	0.54
 Nikola Jovic 			|	3	|	0	|	0.0
-Nikola Vucevic 			|	159	|	80	|	0.335
+Nikola Vucevic 			|	160	|	80	|	0.333
 Noah Clowney 			|	1	|	0	|	0.0
 Noah Vonleh 			|	1	|	0	|	0.0
 Obi Toppin 				|	0	|	1	|	1.0
@@ -168,7 +168,7 @@ Richaun Holmes 			|	20	|	26	|	0.565
 Robert Williams III 	|	25	|	55	|	0.688
 Robin Lopez 			|	3	|	10	|	0.769
 Royce O'Neale 			|	0	|	2	|	1.0
-Rudy Gobert 			|	97	|	121	|	0.555
+Rudy Gobert 			|	97	|	122	|	0.557
 Rui Hachimura 			|	0	|	1	|	1.0
 Sam Hauser 				|	0	|	1	|	1.0
 Sandro Mamukelashvili 	|	8	|	0	|	0.0
@@ -201,7 +201,7 @@ Wendell Carter Jr. 		|	42	|	54	|	0.562
 Wenyen Gabriel 			|	1	|	0	|	0.0
 Willy Hernangomez 		|	5	|	5	|	0.5
 Xavier Tillman 			|	2	|	1	|	0.333
-Yves Missi 				|	10	|	4	|	0.286
+Yves Missi 				|	11	|	4	|	0.267
 Zach Collins 			|	22	|	19	|	0.463
 Zach Edey 				|	1	|	7	|	0.875
 Zeke Nnaji 				|	3	|	1	|	0.25

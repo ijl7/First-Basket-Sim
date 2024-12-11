@@ -293,8 +293,8 @@ def get2023():
             i = 22301201
 def get2024():
     i = 22400001
-    while i < 22400319:
-        if i != 22400050:
+    while i < 22400360:
+        if True:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
 
@@ -403,10 +403,7 @@ def get2024():
                             playerShots[player] += 1
                         else:
                             playerShots.__setitem__(player, 0)
-        if i != 22400050:
-            i += 1
-        else:
-            i = 22400061
+        i += 1
 
 def sortDicts(tipWin, teamLineups, playerTeam):
     tipKeys = list(tipWin.keys())
@@ -557,8 +554,8 @@ def getAllBaskets():
     t2Chance = []
     i = 22400001
     useGame = True
-    while i < 22400319:
-        if i != 22400050 and useGame:
+    while i < 22400360:
+        if useGame:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
                 for row in csvFile:
@@ -610,10 +607,7 @@ def getAllBaskets():
                                 t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Miss')
                             elif row['eventmsgtype'] == '1':
                                 t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Make')
-        if i != 22400050:
-            i += 1
-        else:
-            i = 22400061
+        i += 1
     if int(years) < 4:
         i = 22300001
         useGame = True
