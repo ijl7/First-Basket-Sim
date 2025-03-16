@@ -293,8 +293,8 @@ def get2023():
             i = 22301201
 def get2024():
     i = 22400001
-    while i < 22400360:
-        if True:
+    while i < 22400976:
+        if i != 22400050 and i != 22400495 and i != 22400537 and i != 22400538 and i != 22400617 and i != 22400627 and i != 22400654 and True:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
 
@@ -554,8 +554,8 @@ def getAllBaskets():
     t2Chance = []
     i = 22400001
     useGame = True
-    while i < 22400360:
-        if useGame:
+    while i < 22400976:
+        if i != 22400050 and i != 22400495 and i != 22400537 and i != 22400538 and i != 22400617 and i != 22400627 and i != 22400654 and useGame:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
                 for row in csvFile:
