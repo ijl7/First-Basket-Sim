@@ -18,7 +18,7 @@ line1 = []
 line2 = []
 def get2021():
     i = 22100001
-    while i < 22101230:
+    while i < 22101231:
         if i != 22100717 and i != 22100773 and i != 22101171:
             with open('2021\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -109,7 +109,7 @@ def get2021():
         i += 1
 def get2022():
     i = 22200001
-    while i < 22201230:
+    while i < 22201231:
         if i != 22200674 and i != 22200714:
             with open('2022\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -200,7 +200,7 @@ def get2022():
         i += 1
 def get2023():
     i = 22300001
-    while i < 22301230:
+    while i < 22301231:
         if i != 22300425 and i != 22300576 and i != 22300589 and i != 22301130:
             with open('2023\\' + str(i) + '.csv', mode='r') as file:
                 csvFile = csv.DictReader(file)
@@ -293,8 +293,8 @@ def get2023():
             i = 22301201
 def get2024():
     i = 22400001
-    while i < 22401112:
-        if i != 22400495 and i != 22400617:
+    while i < 22401231:
+        if i != 22400495:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
 
@@ -554,8 +554,8 @@ def getAllBaskets():
     t2Chance = []
     i = 22400001
     useGame = True
-    while i < 22401112:
-        if i != 22400495 and i != 22400617 and useGame:
+    while i < 22401231:
+        if i != 22400495 and useGame:
             with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                 csvFile = csv.DictReader(file)
                 for row in csvFile:
@@ -611,7 +611,7 @@ def getAllBaskets():
     if int(years) < 4:
         i = 22300001
         useGame = True
-        while i < 22301230:
+        while i < 22301231:
             if i != 22300425 and i != 22300576  and i != 22300589 and i != 22301130 and useGame:
                 with open('2023\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
                     csvFile = csv.DictReader(file)
@@ -668,7 +668,7 @@ def getAllBaskets():
     if int(years) < 3:
         i = 22200001
         useGame = True
-        while i < 22201230:
+        while i < 22201231:
             if i != 22200674 and i != 22200714 and useGame:
                 with open('2022\\' + str(i) + '.csv', mode='r') as file:
                     csvFile = csv.DictReader(file)
@@ -725,7 +725,7 @@ def getAllBaskets():
     if int(years) < 2:
         i = 22100001
         useGame = True
-        while i < 22101230:
+        while i < 22101231:
             if i != 22100717 and i != 22100773 and i != 22101171 and useGame:
                 with open('2021\\' + str(i) + '.csv', mode='r') as file:
                     csvFile = csv.DictReader(file)
