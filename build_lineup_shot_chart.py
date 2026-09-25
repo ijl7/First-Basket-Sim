@@ -51,7 +51,7 @@ import replace_accents as replaceaccents
 
 # Every folder your scraper wrote season CSVs into. Add more as you
 # scrape additional seasons.
-SEASON_FOLDERS = ["2021", "2022", "2023", "2024", "2025"]
+SEASON_FOLDERS = ["2021", "2022", "2022 PLAY", "2023", "2024", "2025", "2025 PLAY"]
 
 
 def _lineup_key(names):

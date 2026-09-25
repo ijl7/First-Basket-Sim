@@ -66,7 +66,7 @@ import time
 import unicodedata
 
 from nba_api.stats.endpoints import (
-    boxscoresummaryv2,
+    boxscoresummaryv3,
     boxscoretraditionalv3,
     playbyplayv3,
 )
@@ -95,9 +95,34 @@ SUB_RE = re.compile(r"SUB:\s*(?P<in_name>.+?)\s+FOR\s+(?P<out_name>.+)")
 # Strips NBA's own review annotations, e.g. "(CC) Hayes" -> "Hayes"
 _ANNOTATION_PREFIX_RE = re.compile(r"^\([A-Z]+\)\s*")
 
-# Splits a disambiguating initial NBA adds when two players share a last
-# name, e.g. "L. James" -> ("l", "James"). Group 1 is the initial only.
-_INITIAL_PREFIX_RE = re.compile(r"^([A-Za-z])\.\s+(.+)$")
+# Splits the disambiguating first-name prefix NBA adds when two players
+# share a last name. Usually a single initial ("L. James" -> ("l", "James")),
+# but when two players on the SAME roster share both last name AND first
+# initial, NBA uses a longer prefix instead -- confirmed real example:
+# OKC's Jalen Williams and Jaylin Williams -- NBA writes Jaylin as
+# "Jay. Williams". Group 1 is the prefix (one or more letters); matching
+# it against a candidate's first name is a startswith() check.
+_INITIAL_PREFIX_RE = re.compile(r"^([A-Za-z]+)\.\s+(.+)$")
+
+# PlayByPlayV3's `clock` field, e.g. "PT09M12.00S" -> 552.0 seconds remaining.
+_CLOCK_RE = re.compile(r"^PT(\d+)M([\d.]+)S$")
+
+
+def _parse_clock_seconds(clock):
+    """
+    Parses a V3 clock string ("PT09M12.00S") into total seconds remaining
+    in the period, or None if it isn't in that format. Callers must treat
+    None as "can't order by clock" rather than guessing a value.
+    """
+    if clock is None:
+        return None
+    match = _CLOCK_RE.match(str(clock).strip())
+    if not match:
+        return None
+    try:
+        return int(match.group(1)) * 60 + float(match.group(2))
+    except ValueError:
+        return None
 
 FIELDNAMES = [
     "eventmsgtype",
@@ -152,24 +177,25 @@ def _build_first_name_resolver(rows):
 
 def _build_fuzzy_resolver(rows):
     """
-    Builds a last-name -> [(full_name, side, first_initial), ...] map
-    from box-score rows. A last name maps to a LIST because two players
-    can share one (NBA disambiguates with an initial in its own text,
-    e.g. "L. James" -- see _resolve_name).
+    Builds a last-name -> [(full_name, side, first_name_normalized), ...]
+    map from box-score rows. A last name maps to a LIST because two
+    players can share one (NBA disambiguates with a first-name prefix in
+    its own text, e.g. "L. James" or "Jay. Williams" -- see
+    _resolve_name). The FULL normalized first name is stored (not just
+    an initial) so multi-letter prefixes can be checked with startswith().
     """
     resolver = {}
     for full_name, side, first_name, family_name in rows:
-        first_initial = _normalize_name(str(first_name)).strip()[:1].lower()
+        first_name_normalized = _normalize_name(str(first_name)).strip().lower()
         last_name_key = _normalize_name(str(family_name)).lower().strip()
-        resolver.setdefault(last_name_key, []).append((full_name, side, first_initial))
+        resolver.setdefault(last_name_key, []).append((full_name, side, first_name_normalized))
     return resolver
 
 
 def get_game_rosters(game_id):
     """
     Returns (home_abbrev, away_abbrev, home_starters[5], away_starters[5],
-    starter_name_resolver, roster_name_resolver, roster_first_name_resolver,
-    id_resolver).
+    roster_name_resolver, roster_first_name_resolver, id_resolver).
 
     Starters are identified via BoxScoreTraditionalV3's `position` field
     (non-empty = started). Player names are built as "firstName familyName"
@@ -181,15 +207,13 @@ def get_game_rosters(game_id):
     resolved via this map, never by matching name strings (which breaks
     the moment two players on a roster share a last name).
 
-    starter_name_resolver is a fuzzy (last-name -> candidates) map built
-    from STARTERS ONLY, used for jump-ball text parsing (which only ever
-    matters at the opening tip -- readCSV.py doesn't read later jump
-    balls anyway).
-
-    roster_name_resolver is the same shape but built from the FULL roster
-    (starters + bench), used to resolve the INCOMING player in a
-    substitution, since bench players entering the game are the whole
-    point of a substitution.
+    roster_name_resolver is a fuzzy (last-name -> candidates) map built
+    from the FULL roster (starters + bench), used to resolve the
+    INCOMING player in a substitution and to resolve jump-ball
+    participants (opening tip AND any overtime jump balls -- validated
+    against who's actually tracked on the floor at that point, since a
+    fuzzy match alone doesn't guarantee it's the right person if two
+    players share a last name).
 
     roster_first_name_resolver maps first-name -> [(full_name, side), ...]
     for the full roster, tried as a fallback when roster_name_resolver
@@ -223,23 +247,24 @@ def get_game_rosters(game_id):
         abbrevs[team_id] = team_rows["teamTricode"].iloc[0]
 
     # BoxScoreTraditionalV3 doesn't cleanly flag home vs. away on player
-    # rows, so cross-check with BoxScoreSummaryV2's game header for that.
-    summary = _fetch_with_retries(boxscoresummaryv2.BoxScoreSummaryV2, game_id=game_id)
+    # rows, so cross-check with BoxScoreSummaryV3's game header for that.
+    # (BoxScoreSummaryV2 is broken for games on/after 4/10/2025 -- confirmed
+    # empty-response failures on 2024-25 playoff games; V3's game_summary
+    # dataset uses camelCase field names, confirmed against real data:
+    # homeTeamId/awayTeamId, not V2's HOME_TEAM_ID/VISITOR_TEAM_ID.)
+    summary = _fetch_with_retries(boxscoresummaryv3.BoxScoreSummaryV3, game_id=game_id)
     game_summary_df = summary.game_summary.get_data_frame()
-    home_team_id = int(game_summary_df["HOME_TEAM_ID"].iloc[0])
-    away_team_id = int(game_summary_df["VISITOR_TEAM_ID"].iloc[0])
+    home_team_id = int(game_summary_df["homeTeamId"].iloc[0])
+    away_team_id = int(game_summary_df["awayTeamId"].iloc[0])
 
     id_resolver = {}
-    starter_rows, roster_rows = [], []
+    roster_rows = []
     for _, prow in player_df.iterrows():
         side = "home" if prow["teamId"] == home_team_id else "away"
         full_name = prow["full_name"]
         id_resolver[int(prow["personId"])] = (full_name, side)
         roster_rows.append((full_name, side, prow["firstName"], prow["familyName"]))
-        if str(prow["position"] or "") != "":
-            starter_rows.append((full_name, side, prow["firstName"], prow["familyName"]))
 
-    starter_name_resolver = _build_fuzzy_resolver(starter_rows)
     roster_name_resolver = _build_fuzzy_resolver(roster_rows)
     roster_first_name_resolver = _build_first_name_resolver(roster_rows)
 
@@ -248,7 +273,6 @@ def get_game_rosters(game_id):
         abbrevs[away_team_id],
         lineups[home_team_id],
         lineups[away_team_id],
-        starter_name_resolver,
         roster_name_resolver,
         roster_first_name_resolver,
         id_resolver,
@@ -261,7 +285,7 @@ def _resolve_name(raw_name, resolver, known_full_names=None, first_name_resolver
     Resolves a name that might already be a full name, a plain last
     name, an initial-disambiguated last name (e.g. "L. James"), or one
     with a review annotation (e.g. "(CC) Hayes") into (full_name, side)
-    via `resolver` (last-name -> [(full_name, side, first_initial), ...]).
+    via `resolver` (last-name -> [(full_name, side, first_name_normalized), ...]).
 
     known_full_names, if given, is an iterable of (full_name, side)
     pairs tried as an exact-match fast path first.
@@ -319,7 +343,11 @@ def _resolve_name(raw_name, resolver, known_full_names=None, first_name_resolver
             full_name, side, _ = candidates[0]
             return full_name, side
         if initial is not None:
-            matches = [c for c in candidates if c[2] == initial]
+            # startswith(), not ==: handles both a single initial ("l" ->
+            # "lebron") and NBA's longer prefixes ("jay" -> "jaylin",
+            # but NOT "jalen"). A bare "j" still matches both and stays
+            # ambiguous -> skipped, never guessed.
+            matches = [c for c in candidates if c[2].startswith(initial)]
             if len(matches) == 1:
                 full_name, side, _ = matches[0]
                 return full_name, side
@@ -353,20 +381,71 @@ def _resolve_name(raw_name, resolver, known_full_names=None, first_name_resolver
     return None, None
 
 
-def _parse_jump_ball(description, starter_name_resolver, home_starters, away_starters):
+def _parse_jump_ball(description, roster_name_resolver, roster_first_name_resolver, tracker, verbose=False):
     """
     Parses a jump-ball description into (p1_name, p2_name, winner_name,
     p1_team, winner_team), all resolved to full names. Returns None if
     the text doesn't match or any name can't be resolved.
+
+    Resolves against the FULL roster (not just starters) and validates
+    each resolved player is currently in tracker.on_court -- this
+    matters because jump balls aren't only the opening tip; overtime
+    periods start with a fresh jump ball too, between whoever's
+    actually on the floor at that point (which can be entirely
+    different from the original 5 starters after 4+ quarters of
+    substitutions). Requiring on-court membership also guards against
+    a same-last-name mismatch: if resolution lands on a real player
+    who isn't tracked as on the floor, that's treated as unresolved
+    rather than trusted.
+
+    p1 and p2 are always on OPPOSING teams -- a jump ball is contested
+    between one player from each side, never two teammates. So whichever
+    of the two resolves unambiguously first is used to restrict the
+    other's resolution to the opposite team. This is symmetric -- it
+    doesn't matter whether the ambiguous name is written first or
+    second in the text ("A vs. B" and "B vs. A" both occur), since
+    which name resolves cleanly on the first pass is what determines
+    the restriction, not position in the string. Confirmed real need:
+    "Jump Ball Sengun vs. Green: Tip to Thompson" (Sengun home, Rockets)
+    AND, in a later game, "Jump Ball Green vs. Sengun: Tip to Thompson"
+    (Sengun away this time) -- "Green" was ambiguous across three real
+    players in both, and only cross-checking against whichever of the
+    two names is unambiguous resolves it regardless of which side of
+    "vs." it lands on. Winner (p3) isn't restricted this way since the
+    tip can go to either jumper's own teammate.
     """
     match = JUMP_BALL_RE.search(description)
     if not match:
         return None
 
-    known = [(n, "home") for n in home_starters] + [(n, "away") for n in away_starters]
-    p1_full, p1_team = _resolve_name(match.group("p1"), starter_name_resolver, known)
-    p2_full, _ = _resolve_name(match.group("p2"), starter_name_resolver, known)
-    winner_full, winner_team = _resolve_name(match.group("p3"), starter_name_resolver, known)
+    def resolve_and_verify(raw_name, restrict_to_side=None):
+        known = [(n, "home") for n in tracker.on_court["home"]] + [(n, "away") for n in tracker.on_court["away"]]
+        if restrict_to_side is not None:
+            known = [(n, s) for n, s in known if s == restrict_to_side]
+        full_name, side = _resolve_name(
+            raw_name, roster_name_resolver, known_full_names=known,
+            first_name_resolver=roster_first_name_resolver,
+            restrict_to_side=restrict_to_side, verbose=verbose,
+        )
+        if full_name is None:
+            return None, None
+        if not tracker.trusted[side] or full_name not in tracker.on_court[side]:
+            if verbose:
+                print(f"    [debug] jump ball: {raw_name!r} resolved to {full_name!r} but not currently on court for {side}")
+            return None, None
+        return full_name, side
+
+    opposite = {"home": "away", "away": "home"}
+
+    p1_full, p1_team = resolve_and_verify(match.group("p1"))
+    p2_full, p2_team = resolve_and_verify(match.group("p2"))
+
+    if p1_full is None and p2_full is not None:
+        p1_full, p1_team = resolve_and_verify(match.group("p1"), restrict_to_side=opposite.get(p2_team))
+    elif p2_full is None and p1_full is not None:
+        p2_full, p2_team = resolve_and_verify(match.group("p2"), restrict_to_side=opposite.get(p1_team))
+
+    winner_full, winner_team = resolve_and_verify(match.group("p3"))
 
     if None in (p1_full, p2_full, winner_full, p1_team, winner_team):
         return None
@@ -446,7 +525,7 @@ class _LineupTracker:
         on_court_names = set(self.on_court[side])
         matches = [c for c in candidates if c[0] in on_court_names]
         if initial is not None:
-            narrowed = [c for c in matches if c[2] == initial]
+            narrowed = [c for c in matches if c[2].startswith(initial)]
             if narrowed:
                 matches = narrowed
         if len(matches) == 1:
@@ -539,27 +618,39 @@ def _reconstruct_period_start(tracker, period_actions, id_resolver, roster_name_
     shows up in that period's actions. Reconstructs each side's TRUE
     period-opening five before any rows for this period get written.
 
-    A player counts as a proven original starter if either:
-      (a) they appear (by personId) in ANY action in this period that
-          isn't itself a substitution -- shot, rebound, assist, foul,
-          steal, block, turnover, whatever, OR
-      (b) they're later subbed OUT during this period -- being subbed
-          out proves they were on the floor even if they never
-          otherwise touched the ball.
-    A player who subs IN during this period is explicitly excluded
-    from ever counting as an original starter, even if they later act
-    or later get subbed out themselves.
+    Classification happens in two STAGES, each player decided ONCE at
+    their first mention within that stage, never revisited:
 
-    Once a side reaches 5 confirmed players, it stops accepting any
-    further ones for the rest of the period -- this matters because a
-    substitute's own action can occasionally get processed before the
-    substitution event that should have excluded them (seen in
-    practice: a player's "SUB: X FOR Y" genuinely precedes their shot
-    in the real play-by-play, but very closely -- within the same
-    clock second, alongside things like an instant-replay review row).
-    Once 5 real originals are cleanly confirmed, there's no reason to
-    keep listening to that side at all, so this closes that window
-    entirely rather than trying to out-guess event ordering.
+      STAGE 1 -- substitutions ONLY, in order, ignoring every other
+      action type entirely. For each substitution: the OUTGOING player
+      (resolved exactly by personId), if this is their first mention
+      in this stage, is classified ORIGINAL -- subbing out proves they
+      were already on the floor. The INCOMING player, if this is their
+      first mention in this stage, is classified LATER ENTRANT.
+      Deliberately restricted to substitution-vs-substitution ordering
+      only, because that ordering has held up in every case seen so
+      far -- it's specifically substitution-vs-non-substitution
+      ordering that's been unreliable (confirmed real case: a
+      substitute's own rebound was returned before the substitution
+      event that brought them in). Working only from the substitution
+      sequence sidesteps that entirely.
+
+      STAGE 2 -- every other action type, for whoever STAGE 1 never
+      mentioned in either direction (never subbed in, never subbed out,
+      this whole period): their first appearance in any logged action
+      classifies them ORIGINAL. This is safe precisely because there's
+      no substitution event for them to conflict with -- if you're
+      active all period and never got subbed either way, you must have
+      started there.
+
+    Because each player is decided once at first mention and later
+    re-appearances are no-ops, this also correctly handles a genuinely
+    original player who subs out and back in one or more times within
+    the same period: their first STAGE 1 mention (being subbed out)
+    fixes them as ORIGINAL, and any later re-entry doesn't undo it.
+
+    Once a side reaches 5 confirmed originals, it stops accepting any
+    further ones for the rest of the period.
 
     Sets tracker.on_court[side]/tracker.trusted[side] directly. If a
     side never reaches exactly 5 proven players across the whole
@@ -568,60 +659,69 @@ def _reconstruct_period_start(tracker, period_actions, id_resolver, roster_name_
     marked untrusted for THIS period only; the next period gets an
     independent, fresh reconstruction attempt.
     """
+    classification = {"home": {}, "away": {}}  # player_name -> "original" | "later"
     discovered = {"home": set(), "away": set()}
-    substituted_in = {"home": set(), "away": set()}  # players who entered THIS period via a sub
 
+    def classify(player, side, as_what):
+        """No-op if this player already has a classification for this
+        period -- their FIRST mention (within whichever stage) is the
+        only one that counts."""
+        if player in classification[side]:
+            return
+        classification[side][player] = as_what
+        if as_what == "original":
+            if len(discovered[side]) < 5:
+                discovered[side].add(player)
+                if verbose:
+                    print(f"    [debug] discovery: {player!r} ({side}) classified ORIGINAL")
+            elif verbose:
+                print(f"    [debug] discovery: {side} already has 5 confirmed -- ignoring {player!r}")
+        elif verbose:
+            print(f"    [debug] discovery: {player!r} ({side}) classified LATER ENTRANT")
+
+    # STAGE 1: substitutions only, in their own order -- deliberately
+    # ignores every interleaved non-substitution action.
     for action in period_actions:
-        action_type = str(action.get("actionType", ""))
+        if str(action.get("actionType", "")) != "Substitution":
+            continue
+        description = str(action.get("description", ""))
+        match = SUB_RE.search(description)
+        if not match:
+            continue
 
-        if action_type == "Substitution":
-            description = str(action.get("description", ""))
-            team_tricode = action.get("teamTricode", "")
-            side = "home" if team_tricode == home_abbrev else ("away" if team_tricode == away_abbrev else None)
-            if side is None:
-                continue
-            match = SUB_RE.search(description)
-            if not match:
-                continue
+        out_person_id = action.get("personId")
+        out_hit = id_resolver.get(int(out_person_id)) if out_person_id is not None else None
 
-            out_person_id = action.get("personId")
-            out_hit = id_resolver.get(int(out_person_id)) if out_person_id is not None else None
-            restrict_side = out_hit[1] if out_hit is not None else side
-            in_full, in_side = _resolve_name(
-                match.group("in_name"), roster_name_resolver,
-                first_name_resolver=roster_first_name_resolver,
-                restrict_to_side=restrict_side, verbose=verbose,
+        in_full, in_side = _resolve_name(
+            match.group("in_name"), roster_name_resolver,
+            first_name_resolver=roster_first_name_resolver,
+            restrict_to_side=(out_hit[1] if out_hit is not None else None),
+            verbose=verbose,
+        )
+
+        if verbose:
+            out_desc = out_hit[0] if out_hit is not None else f"<unresolved id {out_person_id!r}>"
+            print(
+                f"    [debug] discovery sub: {description!r}  "
+                f"OUT(by id)={out_desc!r}  IN(by text)={in_full!r}"
             )
 
-            if verbose:
-                out_desc = out_hit[0] if out_hit is not None else f"<unresolved id {out_person_id!r}>"
-                print(
-                    f"    [debug] discovery sub: {description!r}  "
-                    f"OUT(by id)={out_desc!r}  IN(by text)={in_full!r}"
-                )
+        if out_hit is not None:
+            classify(out_hit[0], out_hit[1], "original")
+        if in_full is not None and in_side is not None:
+            classify(in_full, in_side, "later")
 
-            if out_hit is not None:
-                out_full, out_side = out_hit
-                if len(discovered[out_side]) < 5 and out_full not in substituted_in[out_side]:
-                    discovered[out_side].add(out_full)
-                    if verbose:
-                        print(f"    [debug] discovery: {out_full!r} added to discovered[{out_side}]")
-                elif verbose and out_full not in substituted_in[out_side]:
-                    print(f"    [debug] discovery: {out_side} already has 5 confirmed -- ignoring {out_full!r}")
-                elif verbose:
-                    print(f"    [debug] discovery: {out_full!r} already in substituted_in[{out_side}] -- NOT counted as original")
-
-            if in_full is not None and in_side is not None:
-                substituted_in[in_side].add(in_full)
-        else:
-            person_id = action.get("personId")
-            hit = id_resolver.get(int(person_id)) if person_id is not None else None
-            if hit is not None:
-                full_name, side = hit
-                if len(discovered[side]) < 5 and full_name not in substituted_in[side]:
-                    if verbose and full_name not in discovered[side]:
-                        print(f"    [debug] discovery: {full_name!r} ({side}) proven via {action_type!r} action")
-                    discovered[side].add(full_name)
+    # STAGE 2: everyone else, via any non-substitution action -- only
+    # matters for players STAGE 1 never mentioned in either direction,
+    # so there's no competing substitution evidence to conflict with.
+    for action in period_actions:
+        if str(action.get("actionType", "")) == "Substitution":
+            continue
+        person_id = action.get("personId")
+        hit = id_resolver.get(int(person_id)) if person_id is not None else None
+        if hit is not None:
+            full_name, side = hit
+            classify(full_name, side, "original")
 
     for side in ("home", "away"):
         found = discovered[side]
@@ -682,7 +782,7 @@ def scrape_game(game_id, data_dir=".", verbose=False):
 
     (
         home_abbrev, away_abbrev, home_starters, away_starters,
-        starter_name_resolver, roster_name_resolver, roster_first_name_resolver, id_resolver,
+        roster_name_resolver, roster_first_name_resolver, id_resolver,
     ) = get_game_rosters(game_id_str)
     if verbose:
         print(f"  [debug] home_abbrev={home_abbrev!r} home_starters={home_starters!r}")
@@ -699,7 +799,28 @@ def scrape_game(game_id, data_dir=".", verbose=False):
         # periods, since nothing then forces same-period rows to stay
         # contiguous. That in turn breaks _group_by_period, which relies
         # on identical `period` values being contiguous after sorting.
-        pbp_df = pbp_df.sort_values(["period", "actionNumber"]).reset_index(drop=True)
+        #
+        # actionNumber is ALSO not reliably chronological within a period
+        # (confirmed real case, NYK@DET Q2: "SUB: Hart FOR Anunoby" at
+        # 9:12 had actionNumber 283, but "SUB: Anunoby FOR Alvarado" at
+        # 7:31 had 249 -- backwards; some blocks look replayed out of
+        # order). So within a period, sort by game clock DESCENDING (more
+        # time remaining = earlier), with actionNumber only as the
+        # tiebreaker for rows sharing an identical clock reading. If any
+        # clock can't be parsed, fall back to the old period/actionNumber
+        # sort rather than sorting on partial information.
+        clock_seconds = pbp_df["clock"].map(_parse_clock_seconds) if "clock" in pbp_df.columns else None
+        if clock_seconds is not None and clock_seconds.notna().all():
+            pbp_df = pbp_df.assign(_clock_seconds=clock_seconds.astype(float))
+            pbp_df = pbp_df.sort_values(
+                ["period", "_clock_seconds", "actionNumber"],
+                ascending=[True, False, True],
+                kind="mergesort",
+            ).drop(columns="_clock_seconds").reset_index(drop=True)
+        else:
+            if verbose:
+                print("  [warn] missing/unparseable clock values -- sorting by period/actionNumber only")
+            pbp_df = pbp_df.sort_values(["period", "actionNumber"]).reset_index(drop=True)
     elif "actionNumber" in pbp_df.columns:
         pbp_df = pbp_df.sort_values("actionNumber").reset_index(drop=True)
         if verbose:
@@ -764,7 +885,9 @@ def scrape_game(game_id, data_dir=".", verbose=False):
                     continue
 
                 if action_type == "Jump Ball":
-                    parsed = _parse_jump_ball(description, starter_name_resolver, home_starters, away_starters)
+                    parsed = _parse_jump_ball(
+                        description, roster_name_resolver, roster_first_name_resolver, tracker, verbose
+                    )
                     if parsed is None:
                         skipped_jump_balls += 1
                         if verbose:
@@ -817,8 +940,8 @@ def scrape_game(game_id, data_dir=".", verbose=False):
 
 if __name__ == "__main__":
     # Same range/shape as your old scraper.py -- adjust as needed.
-    START_GAME_ID = 22501200
-    END_GAME_ID = 22501226
+    START_GAME_ID = 42500001 #AND 42400223
+    END_GAME_ID = 42501215
     DATA_DIR = "2025"
 
     # Carry over your old known-bad game ID lists here as you rediscover them.
