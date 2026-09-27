@@ -95,6 +95,11 @@ SUB_RE = re.compile(r"SUB:\s*(?P<in_name>.+?)\s+FOR\s+(?P<out_name>.+)")
 # Strips NBA's own review annotations, e.g. "(CC) Hayes" -> "Hayes"
 _ANNOTATION_PREFIX_RE = re.compile(r"^\([A-Z]+\)\s*")
 
+# NBA embeds the assisting player's name only as free text inside a shot
+# description's parenthetical, e.g. "Ivey 26' 3PT Jump Shot (16 PTS)
+# (Duren 3 AST)" -- there's no separate assistPersonId field to read.
+_ASSIST_RE = re.compile(r"\(([^()]+?)\s+\d+\s+AST\)")
+
 # Splits the disambiguating first-name prefix NBA adds when two players
 # share a last name. Usually a single initial ("L. James" -> ("l", "James")),
 # but when two players on the SAME roster share both last name AND first
@@ -641,7 +646,17 @@ def _reconstruct_period_start(tracker, period_actions, id_resolver, roster_name_
       classifies them ORIGINAL. This is safe precisely because there's
       no substitution event for them to conflict with -- if you're
       active all period and never got subbed either way, you must have
-      started there.
+      started there. Stage 2 itself runs in two passes: PASS A uses
+      only an action's own personId (an exact id_resolver match --
+      shooter, rebounder, etc.); PASS B is backup-only, run entirely
+      after PASS A completes, and covers on-court evidence that only
+      ever appears as free text with no personId to match -- a jump
+      ball's two participants and tip recipient, and a shot's assisting
+      player. Keeping these as a strictly later pass (not interleaved
+      per-action with PASS A) matters: a fuzzy-resolved backup name
+      from an earlier action must never claim one of a side's 5 slots
+      ahead of a solid personId match that shows up later in the same
+      period -- see the pass B comment below for why.
 
     Because each player is decided once at first mention and later
     re-appearances are no-ops, this also correctly handles a genuinely
@@ -711,17 +726,108 @@ def _reconstruct_period_start(tracker, period_actions, id_resolver, roster_name_
         if in_full is not None and in_side is not None:
             classify(in_full, in_side, "later")
 
-    # STAGE 2: everyone else, via any non-substitution action -- only
-    # matters for players STAGE 1 never mentioned in either direction,
-    # so there's no competing substitution evidence to conflict with.
-    for action in period_actions:
+    # STAGE 2 -- PASS A: every other action type, for whoever STAGE 1
+    # never mentioned in either direction, using ONLY the action's own
+    # personId -- exact id_resolver matches, the reliable evidence.
+    # This pass runs to completion, over every action, before ANY
+    # backup evidence (pass B below) is looked at.
+    shooter_side_by_action = {}
+    for i, action in enumerate(period_actions):
         if str(action.get("actionType", "")) == "Substitution":
             continue
         person_id = action.get("personId")
         hit = id_resolver.get(int(person_id)) if person_id is not None else None
         if hit is not None:
             full_name, side = hit
+            shooter_side_by_action[i] = side
             classify(full_name, side, "original")
+
+    # STAGE 2 -- PASS B: BACKUP evidence only, used only to fill
+    # whatever a side is still missing after pass A's reliable personId
+    # evidence has been fully applied -- never processed early enough
+    # to take a slot a later, solid personId hit should have gotten.
+    # (classify()'s per-side cap at 5 already stops a full side from
+    # accepting more, but that alone isn't enough: if this evidence
+    # were read in the same left-to-right pass as personId hits, a
+    # fuzzy-resolved name from an EARLIER action could fill a slot that
+    # a real personId match from a LATER action should have claimed.
+    # Running this as its own, later pass over the whole period removes
+    # that ordering risk entirely -- pass A always gets first claim on
+    # every one of a side's 5 slots.)
+    #
+    # Two kinds of on-court evidence only ever appear as free text, with
+    # no personId to resolve exactly:
+    #   1. A jump ball's two participants AND the tip recipient
+    #      ("Jump Ball A vs. B: Tip to C"). Confirmed real case: Kornet
+    #      won a period-opening tip but was never separately confirmed
+    #      on the floor, so his side fell one player short and was
+    #      abandoned even though winning the tip proves he was there.
+    #      Resolved the same way _parse_jump_ball resolves p1/p2 --
+    #      they're always on opposing teams, so whichever name resolves
+    #      unambiguously first restricts the other -- except here
+    #      on-court membership can't be required as a check, since
+    #      on-court membership is exactly what this stage is building.
+    #   2. A shot's assisting player ("(Name N AST)"). Confirmed real
+    #      case: Alvarado's only appearance in a period was via an
+    #      assist, so without parsing it out he was never counted as
+    #      evidence. An assist is always credited to a TEAMMATE of the
+    #      shooter, so once the shooter's own side is known from their
+    #      resolved personId (from pass A, above), the assist name is
+    #      safely restricted to that same side -- that follows from
+    #      what an assist is, not a guess.
+    if any(len(discovered[side]) < 5 for side in ("home", "away")):
+        for i, action in enumerate(period_actions):
+            if str(action.get("actionType", "")) == "Substitution":
+                continue
+            if discovered["home"] and discovered["away"] and len(discovered["home"]) == 5 and len(discovered["away"]) == 5:
+                break
+
+            action_type = str(action.get("actionType", ""))
+            description = str(action.get("description", ""))
+
+            if action_type == "Jump Ball":
+                jb_match = JUMP_BALL_RE.search(description)
+                if jb_match:
+                    raw_p1, raw_p2, raw_p3 = jb_match.group("p1"), jb_match.group("p2"), jb_match.group("p3")
+                    p1_full, p1_side = _resolve_name(
+                        raw_p1, roster_name_resolver,
+                        first_name_resolver=roster_first_name_resolver, verbose=verbose,
+                    )
+                    p2_full, p2_side = _resolve_name(
+                        raw_p2, roster_name_resolver,
+                        first_name_resolver=roster_first_name_resolver, verbose=verbose,
+                    )
+                    opposite = {"home": "away", "away": "home"}
+                    if p1_full is None and p2_full is not None:
+                        p1_full, p1_side = _resolve_name(
+                            raw_p1, roster_name_resolver,
+                            first_name_resolver=roster_first_name_resolver,
+                            restrict_to_side=opposite.get(p2_side), verbose=verbose,
+                        )
+                    elif p2_full is None and p1_full is not None:
+                        p2_full, p2_side = _resolve_name(
+                            raw_p2, roster_name_resolver,
+                            first_name_resolver=roster_first_name_resolver,
+                            restrict_to_side=opposite.get(p1_side), verbose=verbose,
+                        )
+                    p3_full, p3_side = _resolve_name(
+                        raw_p3, roster_name_resolver,
+                        first_name_resolver=roster_first_name_resolver, verbose=verbose,
+                    )
+                    for full_name, side in ((p1_full, p1_side), (p2_full, p2_side), (p3_full, p3_side)):
+                        if full_name is not None and side is not None:
+                            classify(full_name, side, "original")
+
+            assist_match = _ASSIST_RE.search(description)
+            shooter_side = shooter_side_by_action.get(i)
+            if assist_match and shooter_side is not None:
+                assist_full, assist_side = _resolve_name(
+                    assist_match.group(1), roster_name_resolver,
+                    first_name_resolver=roster_first_name_resolver,
+                    restrict_to_side=shooter_side, verbose=verbose,
+                )
+                if assist_full is not None:
+                    classify(assist_full, assist_side, "original")
 
     for side in ("home", "away"):
         found = discovered[side]
@@ -940,8 +1046,8 @@ def scrape_game(game_id, data_dir=".", verbose=False):
 
 if __name__ == "__main__":
     # Same range/shape as your old scraper.py -- adjust as needed.
-    START_GAME_ID = 42500001 #AND 42400223
-    END_GAME_ID = 42501215
+    START_GAME_ID = 22501029 #AND 22500001 458 521 637 955 22501029 42400223
+    END_GAME_ID = 22501030
     DATA_DIR = "2025"
 
     # Carry over your old known-bad game ID lists here as you rediscover them.
