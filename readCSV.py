@@ -19,28 +19,27 @@ fbResults= []
 printedResults = {}
 line1 = []
 line2 = []
-def get2021():
-    i = 22100001
-    while i < 22101231:
-        if i != 22100717 and i != 22100773 and i != 22101171:
-            with open('2021\\' + str(i) + '.csv', mode='r') as file:
+def getYearsWanted(yearsWanted):
+    for folder in yearsWanted:
+        for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+            with open(path, newline="", encoding="utf-8") as file:
                 csvFile = csv.DictReader(file)
-
                 homeLineup = []
                 awayLineup = []
-
+                homeTuple = ()
+                awayTuple = ()
                 for row in csvFile:
                     if '10' == row['eventmsgtype']:
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
+                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
+                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
                         homeTeam = row['home_team_abbrev']
                         awayTeam = row['away_team_abbrev']
                         #add all players with their team
@@ -49,7 +48,7 @@ def get2021():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                #playerTeam.append(homeTeam + ' ' + player)
+                                playerTeam.append(homeTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -61,98 +60,7 @@ def get2021():
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                             else:
-                                #playerTeam.append(awayTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                              
-                        player1Name = row['player1_name']
-                        player2Name = row['player2_name']
-                        homeWin = tipWin.__contains__(player1Name + ' Win')
-                        homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                        awayWin = tipWin.__contains__(player2Name + ' Win')
-                        awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                        #add all tip wins and losses for players
-                        if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                            if homeWin:
-                                tipWin[player1Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Win', 1)
-                                tipWin.__setitem__(player1Name + ' Loss', 0)
-                            if awayLoss:
-                                tipWin[player2Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Loss', 1)
-                                tipWin.__setitem__(player2Name + ' Win', 0)
-                        else:
-                            if homeLoss:
-                                tipWin[player1Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Loss', 1)
-                                tipWin.__setitem__(player1Name + ' Win', 0)
-                            if awayWin:
-                                tipWin[player2Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Win', 1)
-                                tipWin.__setitem__(player2Name + ' Loss', 0)
-                        break
-
-                for row in csvFile:
-                    if '1' == row['eventmsgtype']:
-                        #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                        playerShots[row['player1_name']] += 1
-                        firstBaskets[row['player1_name']] += 1
-                        break
-                    elif '2' == row['eventmsgtype']:
-                        playerShots[row['player1_name']] += 1
-
-        i += 1
-def get2022():
-    i = 22200001
-    while i < 22201231:
-        if i != 22200674 and i != 22200714:
-            with open('2022\\' + str(i) + '.csv', mode='r') as file:
-                csvFile = csv.DictReader(file)
-
-                homeLineup = []
-                awayLineup = []
-
-                for row in csvFile:
-                    if '10' == row['eventmsgtype']:
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
-                        homeTeam = row['home_team_abbrev']
-                        awayTeam = row['away_team_abbrev']
-                        #add all players with their team
-                        for player in homeLineup:
-                            if playerTeam.__contains__(homeTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                #playerTeam.append(homeTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                        for player in awayLineup:
-                            if playerTeam.__contains__(awayTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                #playerTeam.append(awayTeam + ' ' + player)
+                                playerTeam.append(awayTeam + ' ' + player)
                                 if playerStarts.__contains__(player):
                                     playerStarts[player] += 1
                                 else:
@@ -160,363 +68,18 @@ def get2022():
                                     firstBaskets.__setitem__(player, 0)
                                     playerShots.__setitem__(player, 0)
                                 
-                        player1Name = row['player1_name']
-                        player2Name = row['player2_name']
-                        homeWin = tipWin.__contains__(player1Name + ' Win')
-                        homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                        awayWin = tipWin.__contains__(player2Name + ' Win')
-                        awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                        #add all tip wins and losses for players
-                        if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                            if homeWin:
-                                tipWin[player1Name + ' Win'] += 1
+                        #add all team lineups only for 2025
+                        if(folder == "2025" or folder == "2025 PLAY"):
+                            homeTuple = tuple(homeLineup)
+                            awayTuple = tuple(awayLineup)
+                            if teamLineups.__contains__(homeTuple):
+                                None
                             else:
-                                tipWin.__setitem__(player1Name + ' Win', 1)
-                                tipWin.__setitem__(player1Name + ' Loss', 0)
-                            if awayLoss:
-                                tipWin[player2Name + ' Loss'] += 1
+                                teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
+                            if teamLineups.__contains__(awayTuple):
+                                None
                             else:
-                                tipWin.__setitem__(player2Name + ' Loss', 1)
-                                tipWin.__setitem__(player2Name + ' Win', 0)
-                        else:
-                            if homeLoss:
-                                tipWin[player1Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Loss', 1)
-                                tipWin.__setitem__(player1Name + ' Win', 0)
-                            if awayWin:
-                                tipWin[player2Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Win', 1)
-                                tipWin.__setitem__(player2Name + ' Loss', 0)
-                        break
-
-                for row in csvFile:
-                    if '1' == row['eventmsgtype']:
-                        #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                        playerShots[row['player1_name']] += 1
-                        firstBaskets[row['player1_name']] += 1
-                        break
-                    elif '2' == row['eventmsgtype']:
-                        playerShots[row['player1_name']] += 1
-
-        i += 1
-def get2022PLAY():
-    for path in sorted(glob.glob(os.path.join("2022 PLAY", "*.csv"))):
-        with open(path, newline="", encoding="utf-8") as file:
-            csvFile = csv.DictReader(file)
-            homeLineup = []
-            awayLineup = []
-
-            for row in csvFile:
-                if '10' == row['eventmsgtype']:
-                    homeLineup.append(row['home_player_1'])
-                    homeLineup.append(row['home_player_2'])
-                    homeLineup.append(row['home_player_3'])
-                    homeLineup.append(row['home_player_4'])
-                    homeLineup.append(row['home_player_5'])
-                    awayLineup.append(row['away_player_1'])
-                    awayLineup.append(row['away_player_2'])
-                    awayLineup.append(row['away_player_3'])
-                    awayLineup.append(row['away_player_4'])
-                    awayLineup.append(row['away_player_5'])
-                    homeTeam = row['home_team_abbrev']
-                    awayTeam = row['away_team_abbrev']
-                    #add all players with their team
-                    for player in homeLineup:
-                        if playerTeam.__contains__(homeTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            #playerTeam.append(homeTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                    for player in awayLineup:
-                        if playerTeam.__contains__(awayTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            #playerTeam.append(awayTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                            
-                    player1Name = row['player1_name']
-                    player2Name = row['player2_name']
-                    homeWin = tipWin.__contains__(player1Name + ' Win')
-                    homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                    awayWin = tipWin.__contains__(player2Name + ' Win')
-                    awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                    #add all tip wins and losses for players
-                    if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                        if homeWin:
-                            tipWin[player1Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Win', 1)
-                            tipWin.__setitem__(player1Name + ' Loss', 0)
-                        if awayLoss:
-                            tipWin[player2Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Loss', 1)
-                            tipWin.__setitem__(player2Name + ' Win', 0)
-                    else:
-                        if homeLoss:
-                            tipWin[player1Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Loss', 1)
-                            tipWin.__setitem__(player1Name + ' Win', 0)
-                        if awayWin:
-                            tipWin[player2Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Win', 1)
-                            tipWin.__setitem__(player2Name + ' Loss', 0)
-                    break
-
-            for row in csvFile:
-                if '1' == row['eventmsgtype']:
-                    #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                    playerShots[row['player1_name']] += 1
-                    firstBaskets[row['player1_name']] += 1
-                    break
-                elif '2' == row['eventmsgtype']:
-                    playerShots[row['player1_name']] += 1
-def get2023PRE():
-    for path in sorted(glob.glob(os.path.join("2023 PRE", "*.csv"))):
-        with open(path, newline="", encoding="utf-8") as file:
-            csvFile = csv.DictReader(file)
-            homeLineup = []
-            awayLineup = []
-
-            for row in csvFile:
-                if '10' == row['eventmsgtype']:
-                    homeLineup.append(row['home_player_1'])
-                    homeLineup.append(row['home_player_2'])
-                    homeLineup.append(row['home_player_3'])
-                    homeLineup.append(row['home_player_4'])
-                    homeLineup.append(row['home_player_5'])
-                    awayLineup.append(row['away_player_1'])
-                    awayLineup.append(row['away_player_2'])
-                    awayLineup.append(row['away_player_3'])
-                    awayLineup.append(row['away_player_4'])
-                    awayLineup.append(row['away_player_5'])
-                    homeTeam = row['home_team_abbrev']
-                    awayTeam = row['away_team_abbrev']
-                    #add all players with their team
-                    for player in homeLineup:
-                        if playerTeam.__contains__(homeTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            #playerTeam.append(homeTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                    for player in awayLineup:
-                        if playerTeam.__contains__(awayTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            #playerTeam.append(awayTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                            
-                    player1Name = row['player1_name']
-                    player2Name = row['player2_name']
-                    homeWin = tipWin.__contains__(player1Name + ' Win')
-                    homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                    awayWin = tipWin.__contains__(player2Name + ' Win')
-                    awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                    #add all tip wins and losses for players
-                    if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                        if homeWin:
-                            tipWin[player1Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Win', 1)
-                            tipWin.__setitem__(player1Name + ' Loss', 0)
-                        if awayLoss:
-                            tipWin[player2Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Loss', 1)
-                            tipWin.__setitem__(player2Name + ' Win', 0)
-                    else:
-                        if homeLoss:
-                            tipWin[player1Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Loss', 1)
-                            tipWin.__setitem__(player1Name + ' Win', 0)
-                        if awayWin:
-                            tipWin[player2Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Win', 1)
-                            tipWin.__setitem__(player2Name + ' Loss', 0)
-                    break
-
-            for row in csvFile:
-                if '1' == row['eventmsgtype']:
-                    #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                    playerShots[row['player1_name']] += 1
-                    firstBaskets[row['player1_name']] += 1
-                    break
-                elif '2' == row['eventmsgtype']:
-                    playerShots[row['player1_name']] += 1
-def get2023():
-    i = 22300001
-    while i < 22301231:
-        if i != 22300425 and i != 22300576 and i != 22300589 and i != 22301130:
-            with open('2023\\' + str(i) + '.csv', mode='r') as file:
-                csvFile = csv.DictReader(file)
-
-                homeLineup = []
-                awayLineup = []
-
-                for row in csvFile:
-                    if '10' == row['eventmsgtype']:
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
-                        homeTeam = row['home_team_abbrev']
-                        awayTeam = row['away_team_abbrev']
-                        #add all players with their team
-                        for player in homeLineup:
-                            if playerTeam.__contains__(homeTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(homeTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                        for player in awayLineup:
-                            if playerTeam.__contains__(awayTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(awayTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                              
-                        player1Name = row['player1_name']
-                        player2Name = row['player2_name']
-                        homeWin = tipWin.__contains__(player1Name + ' Win')
-                        homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                        awayWin = tipWin.__contains__(player2Name + ' Win')
-                        awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                        #add all tip wins and losses for players
-                        if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                            if homeWin:
-                                tipWin[player1Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Win', 1)
-                                tipWin.__setitem__(player1Name + ' Loss', 0)
-                            if awayLoss:
-                                tipWin[player2Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Loss', 1)
-                                tipWin.__setitem__(player2Name + ' Win', 0)
-                        else:
-                            if homeLoss:
-                                tipWin[player1Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Loss', 1)
-                                tipWin.__setitem__(player1Name + ' Win', 0)
-                            if awayWin:
-                                tipWin[player2Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Win', 1)
-                                tipWin.__setitem__(player2Name + ' Loss', 0)
-                        break
-
-                for row in csvFile:
-                    if '1' == row['eventmsgtype']:
-                        #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                        playerShots[row['player1_name']] += 1
-                        firstBaskets[row['player1_name']] += 1
-                        break
-                    elif '2' == row['eventmsgtype']:
-                        playerShots[row['player1_name']] += 1
-        if i != 22301100:
-            i += 1
-        else:
-            i = 22301201
-def get2024():
-    i = 22400001
-    while i < 22401231:
-        if i != 22400495:
-            with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
-                csvFile = csv.DictReader(file)
-
-                homeLineup = []
-                awayLineup = []
-                homeTuple = ()
-                awayTuple = ()
-                for row in csvFile:
-                    if '10' == row['eventmsgtype']:
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                        homeTeam = row['home_team_abbrev']
-                        awayTeam = row['away_team_abbrev']
-                        #add all players with their team
-                        for player in homeLineup:
-                            if playerTeam.__contains__(homeTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(homeTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                        for player in awayLineup:
-                            if playerTeam.__contains__(awayTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(awayTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                              
+                                teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
                         #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
                         player1Name = replaceaccents.replace_accents_characters(row['player1_name'])
                         player2Name = replaceaccents.replace_accents_characters(row['player2_name'])
@@ -567,327 +130,6 @@ def get2024():
                             playerShots[player] += 1
                         else:
                             playerShots.__setitem__(player, 0)
-        i += 1
-def get2024PLAY():
-    for path in sorted(glob.glob(os.path.join("2024 PLAY", "*.csv"))):
-        with open(path, newline="", encoding="utf-8") as file:
-            csvFile = csv.DictReader(file)
-            homeLineup = []
-            awayLineup = []
-            homeTuple = ()
-            awayTuple = ()
-            for row in csvFile:
-                if '10' == row['eventmsgtype']:
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                    homeTeam = row['home_team_abbrev']
-                    awayTeam = row['away_team_abbrev']
-                    #add all players with their team
-                    for player in homeLineup:
-                        if playerTeam.__contains__(homeTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            playerTeam.append(homeTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                    for player in awayLineup:
-                        if playerTeam.__contains__(awayTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            playerTeam.append(awayTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                            
-                    #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
-                    player1Name = replaceaccents.replace_accents_characters(row['player1_name'])
-                    player2Name = replaceaccents.replace_accents_characters(row['player2_name'])
-                    homeWin = tipWin.__contains__(player1Name + ' Win')
-                    homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                    awayWin = tipWin.__contains__(player2Name + ' Win')
-                    awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                    #add all tip wins and losses for players
-                    if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                        if homeWin:
-                            tipWin[player1Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Win', 1)
-                            tipWin.__setitem__(player1Name + ' Loss', 0)
-                        if awayLoss:
-                            tipWin[player2Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Loss', 1)
-                            tipWin.__setitem__(player2Name + ' Win', 0)
-                    else:
-                        if homeLoss:
-                            tipWin[player1Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Loss', 1)
-                            tipWin.__setitem__(player1Name + ' Win', 0)
-                        if awayWin:
-                            tipWin[player2Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Win', 1)
-                            tipWin.__setitem__(player2Name + ' Loss', 0)
-                    break
-
-            for row in csvFile:
-                player = replaceaccents.replace_accents_characters(row['player1_name'])
-                if '1' == row['eventmsgtype']:
-                    #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                    if playerShots.__contains__(player):
-                        playerShots[player] += 1
-                    else:
-                        playerShots.__setitem__(player, 0)
-                    if firstBaskets.__contains__(player):
-                        firstBaskets[player] += 1
-                    else:
-                        firstBaskets.__setitem__(player, 0)
-                    break
-                elif '2' == row['eventmsgtype']:
-                    if playerShots.__contains__(player):
-                        playerShots[player] += 1
-                    else:
-                        playerShots.__setitem__(player, 0)
-def get2025():
-    i = 22500001
-    while i < 22501200:
-        if i != 22501201:
-            with open('2025\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
-                csvFile = csv.DictReader(file)
-
-                homeLineup = []
-                awayLineup = []
-                homeTuple = ()
-                awayTuple = ()
-                for row in csvFile:
-                    if '10' == row['eventmsgtype']:
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                        homeTeam = row['home_team_abbrev']
-                        awayTeam = row['away_team_abbrev']
-                        #add all players with their team
-                        for player in homeLineup:
-                            if playerTeam.__contains__(homeTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(homeTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                        for player in awayLineup:
-                            if playerTeam.__contains__(awayTeam + ' ' + player):
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                            else:
-                                playerTeam.append(awayTeam + ' ' + player)
-                                if playerStarts.__contains__(player):
-                                    playerStarts[player] += 1
-                                else:
-                                    playerStarts.__setitem__(player, 1)
-                                    firstBaskets.__setitem__(player, 0)
-                                    playerShots.__setitem__(player, 0)
-                              
-                        #add all team lineups
-                        homeTuple = tuple(homeLineup)
-                        awayTuple = tuple(awayLineup)
-                        if teamLineups.__contains__(homeTuple):
-                            None
-                        else:
-                            teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
-                        if teamLineups.__contains__(awayTuple):
-                            None
-                        else:
-                            teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
-                        #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
-                        player1Name = replaceaccents.replace_accents_characters(row['player1_name'])
-                        player2Name = replaceaccents.replace_accents_characters(row['player2_name'])
-                        homeWin = tipWin.__contains__(player1Name + ' Win')
-                        homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                        awayWin = tipWin.__contains__(player2Name + ' Win')
-                        awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                        #add all tip wins and losses for players
-                        if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                            if homeWin:
-                                tipWin[player1Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Win', 1)
-                                tipWin.__setitem__(player1Name + ' Loss', 0)
-                            if awayLoss:
-                                tipWin[player2Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Loss', 1)
-                                tipWin.__setitem__(player2Name + ' Win', 0)
-                        else:
-                            if homeLoss:
-                                tipWin[player1Name + ' Loss'] += 1
-                            else:
-                                tipWin.__setitem__(player1Name + ' Loss', 1)
-                                tipWin.__setitem__(player1Name + ' Win', 0)
-                            if awayWin:
-                                tipWin[player2Name + ' Win'] += 1
-                            else:
-                                tipWin.__setitem__(player2Name + ' Win', 1)
-                                tipWin.__setitem__(player2Name + ' Loss', 0)
-                        break
-
-                for row in csvFile:
-                    player = replaceaccents.replace_accents_characters(row['player1_name'])
-                    if '1' == row['eventmsgtype']:
-                        #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                        if playerShots.__contains__(player):
-                            playerShots[player] += 1
-                        else:
-                            playerShots.__setitem__(player, 0)
-                        if firstBaskets.__contains__(player):
-                            firstBaskets[player] += 1
-                        else:
-                            firstBaskets.__setitem__(player, 0)
-                        break
-                    elif '2' == row['eventmsgtype']:
-                        if playerShots.__contains__(player):
-                            playerShots[player] += 1
-                        else:
-                            playerShots.__setitem__(player, 0)
-        i += 1
-def get2025PLAY():
-    for path in sorted(glob.glob(os.path.join("2025 PLAY", "*.csv"))):
-        with open(path, newline="", encoding="utf-8") as file:
-            csvFile = csv.DictReader(file)
-            homeLineup = []
-            awayLineup = []
-            homeTuple = ()
-            awayTuple = ()
-            for row in csvFile:
-                if '10' == row['eventmsgtype']:
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                    homeTeam = row['home_team_abbrev']
-                    awayTeam = row['away_team_abbrev']
-                    #add all players with their team
-                    for player in homeLineup:
-                        if playerTeam.__contains__(homeTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            playerTeam.append(homeTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                    for player in awayLineup:
-                        if playerTeam.__contains__(awayTeam + ' ' + player):
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                        else:
-                            playerTeam.append(awayTeam + ' ' + player)
-                            if playerStarts.__contains__(player):
-                                playerStarts[player] += 1
-                            else:
-                                playerStarts.__setitem__(player, 1)
-                                firstBaskets.__setitem__(player, 0)
-                                playerShots.__setitem__(player, 0)
-                            
-                    #add all team lineups
-                    homeTuple = tuple(homeLineup)
-                    awayTuple = tuple(awayLineup)
-                    if teamLineups.__contains__(homeTuple):
-                        None
-                    else:
-                        teamLineups.__setitem__(homeTuple, row['home_team_abbrev'])
-                    if teamLineups.__contains__(awayTuple):
-                        None
-                    else:
-                        teamLineups.__setitem__(awayTuple, row['away_team_abbrev'])
-                    #print(row['player1_name'] + ' vs ' + row['player2_name'] + ', ' + row['player3_team_abbreviation'] + ' wins tip')
-                    player1Name = replaceaccents.replace_accents_characters(row['player1_name'])
-                    player2Name = replaceaccents.replace_accents_characters(row['player2_name'])
-                    homeWin = tipWin.__contains__(player1Name + ' Win')
-                    homeLoss = tipWin.__contains__(player1Name + ' Loss')
-                    awayWin = tipWin.__contains__(player2Name + ' Win')
-                    awayLoss = tipWin.__contains__(player2Name + ' Loss')
-                    #add all tip wins and losses for players
-                    if row['player1_team_abbreviation'] == row['player3_team_abbreviation']:
-                        if homeWin:
-                            tipWin[player1Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Win', 1)
-                            tipWin.__setitem__(player1Name + ' Loss', 0)
-                        if awayLoss:
-                            tipWin[player2Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Loss', 1)
-                            tipWin.__setitem__(player2Name + ' Win', 0)
-                    else:
-                        if homeLoss:
-                            tipWin[player1Name + ' Loss'] += 1
-                        else:
-                            tipWin.__setitem__(player1Name + ' Loss', 1)
-                            tipWin.__setitem__(player1Name + ' Win', 0)
-                        if awayWin:
-                            tipWin[player2Name + ' Win'] += 1
-                        else:
-                            tipWin.__setitem__(player2Name + ' Win', 1)
-                            tipWin.__setitem__(player2Name + ' Loss', 0)
-                    break
-
-            for row in csvFile:
-                player = replaceaccents.replace_accents_characters(row['player1_name'])
-                if '1' == row['eventmsgtype']:
-                    #print(row['away_team_abbrev'] + " @ " + row['home_team_abbrev'] + ", " + row['player1_name'])
-                    if playerShots.__contains__(player):
-                        playerShots[player] += 1
-                    else:
-                        playerShots.__setitem__(player, 0)
-                    if firstBaskets.__contains__(player):
-                        firstBaskets[player] += 1
-                    else:
-                        firstBaskets.__setitem__(player, 0)
-                    break
-                elif '2' == row['eventmsgtype']:
-                    if playerShots.__contains__(player):
-                        playerShots[player] += 1
-                    else:
-                        playerShots.__setitem__(player, 0)
 
 def sortDicts(tipWin, teamLineups, playerTeam):
     tipKeys = list(tipWin.keys())
@@ -1036,176 +278,21 @@ def getFirstBasket():
 def getAllBaskets():
     t1Chance = []
     t2Chance = []
-    i = 22500001
-    useGame = True
-    while i < 22501230:
-        with open('2025\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
-            csvFile = csv.DictReader(file)
-            for row in csvFile:
-                useLine = True
-                homeLineup = []
-                awayLineup = []
-                homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                j = 0
-                while j < 5:
-                    #check all players in the home and away lineup for line1
-                    if homeLineup.__contains__(line1[j]):
-                        None
-                    elif awayLineup.__contains__(line1[j]):
-                        None
-                    else:
-                        useLine = False
-                    j += 1
-                if useLine:
-                    #only add if the player you want is shooting
-                    if line1.__contains__(row['player1_name']):
-                        if row['eventmsgtype'] == '2':
-                            t1Chance.append(row['player1_name'] + ' Miss')
-                        elif row['eventmsgtype'] == '1':
-                            t1Chance.append(row['player1_name'] + ' Make')
-                useLine = True
-                j = 0
-                while j < 5:
-                    #check all players in the home and away lineup for line2
-                    if homeLineup.__contains__(line2[j]):
-                        None
-                    elif awayLineup.__contains__(line2[j]):
-                        None
-                    else:
-                        useLine = False
-                    j += 1
-                if useLine:
-                    #only add if the player you want is shooting
-                    if line2.__contains__(row['player1_name']):
-                        if row['eventmsgtype'] == '2':
-                            t2Chance.append(row['player1_name'] + ' Miss')
-                        elif row['eventmsgtype'] == '1':
-                            t2Chance.append(row['player1_name'] + ' Make')
-        i += 1
-    for path in sorted(glob.glob(os.path.join("2025 PLAY", "*.csv"))):
-            with open(path, newline="", encoding="utf-8") as file:
-                csvFile = csv.DictReader(file)
-                for row in csvFile:
-                    useLine = True
-                    homeLineup = []
-                    awayLineup = []
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                    homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                    awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                    j = 0
-                    while j < 5:
-                        #check all players in the home and away lineup for line1
-                        if homeLineup.__contains__(line1[j]):
-                            None
-                        elif awayLineup.__contains__(line1[j]):
-                            None
-                        else:
-                            useLine = False
-                        j += 1
-                    if useLine:
-                        #only add if the player you want is shooting
-                        if line1.__contains__(row['player1_name']):
-                            if row['eventmsgtype'] == '2':
-                                t1Chance.append(row['player1_name'] + ' Miss')
-                            elif row['eventmsgtype'] == '1':
-                                t1Chance.append(row['player1_name'] + ' Make')
-                    useLine = True
-                    j = 0
-                    while j < 5:
-                        #check all players in the home and away lineup for line2
-                        if homeLineup.__contains__(line2[j]):
-                            None
-                        elif awayLineup.__contains__(line2[j]):
-                            None
-                        else:
-                            useLine = False
-                        j += 1
-                    if useLine:
-                        #only add if the player you want is shooting
-                        if line2.__contains__(row['player1_name']):
-                            if row['eventmsgtype'] == '2':
-                                t2Chance.append(row['player1_name'] + ' Miss')
-                            elif row['eventmsgtype'] == '1':
-                                t2Chance.append(row['player1_name'] + ' Make')
+    seasonFolders = ["2025", "2025 PLAY"]
     if int(years) < 5:
-        i = 22400001
-        useGame = True
-        while i < 22401231:
-            if i != 22400495 and useGame:
-                with open('2024\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
-                    csvFile = csv.DictReader(file)
-                    for row in csvFile:
-                        useLine = True
-                        homeLineup = []
-                        awayLineup = []
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_1']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_2']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_3']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_4']))
-                        homeLineup.append(replaceaccents.replace_accents_characters(row['home_player_5']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_1']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_2']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_3']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_4']))
-                        awayLineup.append(replaceaccents.replace_accents_characters(row['away_player_5']))
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line1
-                            if homeLineup.__contains__(line1[j]):
-                                None
-                            elif awayLineup.__contains__(line1[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line1.__contains__(replaceaccents.replace_accents_characters(row['player1_name'])):
-                                if row['eventmsgtype'] == '2':
-                                    t1Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t1Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Make')
-                        useLine = True
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line2
-                            if homeLineup.__contains__(line2[j]):
-                                None
-                            elif awayLineup.__contains__(line2[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line2.__contains__(replaceaccents.replace_accents_characters(row['player1_name'])):
-                                if row['eventmsgtype'] == '2':
-                                    t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t2Chance.append(replaceaccents.replace_accents_characters(row['player1_name']) + ' Make')
-            i += 1
+        seasonFolders.append("2024")
+        seasonFolders.append("2024 PLAY")
     if int(years) < 4:
-        i = 22300001
-        useGame = True
-        while i < 22301231:
-            if i != 22300425 and i != 22300576  and i != 22300589 and i != 22301130 and useGame:
-                with open('2023\\' + str(i) + '.csv', mode='r', encoding='utf-8') as file:
+        seasonFolders.append("2023 PRE")
+        seasonFolders.append("2023")
+    if int(years) < 3:
+        seasonFolders.append("2022")
+        seasonFolders.append("2022 PLAY")
+    if int(years) < 2:
+        seasonFolders.append("2021")
+    for folder in seasonFolders:
+            for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+                with open(path, newline="", encoding="utf-8") as file:
                     csvFile = csv.DictReader(file)
                     for row in csvFile:
                         useLine = True
@@ -1256,121 +343,6 @@ def getAllBaskets():
                                     t2Chance.append(row['player1_name'] + ' Miss')
                                 elif row['eventmsgtype'] == '1':
                                     t2Chance.append(row['player1_name'] + ' Make')
-            i += 1
-    if int(years) < 3:
-        i = 22200001
-        useGame = True
-        while i < 22201231:
-            if i != 22200674 and i != 22200714 and useGame:
-                with open('2022\\' + str(i) + '.csv', mode='r') as file:
-                    csvFile = csv.DictReader(file)
-                    for row in csvFile:
-                        useLine = True
-                        homeLineup = []
-                        awayLineup = []
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line1
-                            if homeLineup.__contains__(line1[j]):
-                                None
-                            elif awayLineup.__contains__(line1[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line1.__contains__(row['player1_name']):
-                                if row['eventmsgtype'] == '2':
-                                    t1Chance.append(row['player1_name'] + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t1Chance.append(row['player1_name'] + ' Make')
-                        useLine = True
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line2
-                            if homeLineup.__contains__(line2[j]):
-                                None
-                            elif awayLineup.__contains__(line2[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line2.__contains__(row['player1_name']):
-                                if row['eventmsgtype'] == '2':
-                                    t2Chance.append(row['player1_name'] + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t2Chance.append(row['player1_name'] + ' Make')
-            i += 1         
-    if int(years) < 2:
-        i = 22100001
-        useGame = True
-        while i < 22101231:
-            if i != 22100717 and i != 22100773 and i != 22101171 and useGame:
-                with open('2021\\' + str(i) + '.csv', mode='r') as file:
-                    csvFile = csv.DictReader(file)
-                    for row in csvFile:
-                        useLine = True
-                        homeLineup = []
-                        awayLineup = []
-                        homeLineup.append(row['home_player_1'])
-                        homeLineup.append(row['home_player_2'])
-                        homeLineup.append(row['home_player_3'])
-                        homeLineup.append(row['home_player_4'])
-                        homeLineup.append(row['home_player_5'])
-                        awayLineup.append(row['away_player_1'])
-                        awayLineup.append(row['away_player_2'])
-                        awayLineup.append(row['away_player_3'])
-                        awayLineup.append(row['away_player_4'])
-                        awayLineup.append(row['away_player_5'])
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line1
-                            if homeLineup.__contains__(line1[j]):
-                                None
-                            elif awayLineup.__contains__(line1[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line1.__contains__(row['player1_name']):
-                                if row['eventmsgtype'] == '2':
-                                    t1Chance.append(row['player1_name'] + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t1Chance.append(row['player1_name'] + ' Make')
-                        useLine = True
-                        j = 0
-                        while j < 5:
-                            #check all players in the home and away lineup for line2
-                            if homeLineup.__contains__(line2[j]):
-                                None
-                            elif awayLineup.__contains__(line2[j]):
-                                None
-                            else:
-                                useLine = False
-                            j += 1
-                        if useLine:
-                            #only add if the player you want is shooting
-                            if line2.__contains__(row['player1_name']):
-                                if row['eventmsgtype'] == '2':
-                                    t2Chance.append(row['player1_name'] + ' Miss')
-                                elif row['eventmsgtype'] == '1':
-                                    t2Chance.append(row['player1_name'] + ' Make')
-            i += 1
     return (t1Chance, t2Chance)
 
 def getTeamBaskets():
@@ -1417,20 +389,29 @@ def getShooter():
             ballFirst = 1
         #print(str(result))
     fbResults.append(result[0:len(result)-5])
-years = input('What years would you like? (1 for 2021 onwards, 2 for 2022 onwards, 3 for 2023 onwards, or 4 for 2024 onwards)\n')
-get2025()
-get2025PLAY()
-if int(years) < 5:
-    get2024()
-    get2024PLAY()
-if int(years) < 4:
-    get2023PRE()
-    get2023()
-if int(years) < 3:
-    get2022()
-    get2022PLAY()
-if int(years) < 2:
-    get2021()
+
+years = input('What years would you like? (1 for 2021 onwards, 2 for 2022 onwards, 3 for 2023 onwards, 4 for 2024 onwards, or 5 for 2025 onwards)\n')
+playoffs = input('Would you like playoffs? (1 for no, 2 for only, 3 for yes)\n')
+yearsWanted = []
+if (int(playoffs) > 2):
+    i = int(years)
+    while (i < 6):
+        yearsWanted.append("202" + str(i))
+        yearsWanted.append("202" + str(i) + " PLAY")
+        yearsWanted.append("202" + str(i) + " PRE")
+        i += 1
+elif (int(playoffs) > 1):
+    i = int(years)
+    while (i < 6):
+        yearsWanted.append("202" + str(i) + " PLAY")
+        i += 1
+else:
+    i = years
+    while (i < 6):
+        yearsWanted.append("202" + str(i))
+        i += 1
+print(yearsWanted)
+getYearsWanted(yearsWanted)
 (tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
 writeTipWinChart()
 writeLineupChart()
@@ -1448,6 +429,7 @@ for lineup in lines2:
     print(str(i) + '. ' + str(lineup))
     i += 1
 (line1, line2) = getLineupChoice(line1, line2)
+
 mode = input('Would you like first basket data (1), or all plays (2)?\n')
 if int(mode) == 1:
     (t1Chance, t2Chance) = getFirstBasket()
@@ -1463,6 +445,7 @@ print('------- Team 2 -------')
 for result in t2FB.keys():
     print(result + ':\t' + str(round((t2FB[result]/t2Total)*100, 3)) + '% chance:\t+' + str(round(((1/(t2FB[result]/(t2Total)))-1)*100)) + ' odds')
 print('\n')
+
 for i in range(10000000):
     getShooter()
 fbResults = sorted(fbResults)
@@ -1471,6 +454,7 @@ for player in fbResults:
         printedResults[player] += 1
     else:
         printedResults.__setitem__(player, 1)
+
 #sort results by highest percent chance to score
 printedResults = dict(sorted(printedResults.items(), key=lambda x:x[1], reverse=True))
 for result in printedResults.keys():
