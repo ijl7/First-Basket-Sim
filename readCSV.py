@@ -406,7 +406,7 @@ elif (int(playoffs) > 1):
         yearsWanted.append("202" + str(i) + " PLAY")
         i += 1
 else:
-    i = years
+    i = int(years)
     while (i < 6):
         yearsWanted.append("202" + str(i))
         i += 1
