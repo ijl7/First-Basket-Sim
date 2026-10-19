@@ -1046,9 +1046,9 @@ def scrape_game(game_id, data_dir=".", verbose=False):
 
 if __name__ == "__main__":
     # Same range/shape as your old scraper.py -- adjust as needed.
-    START_GAME_ID = 22501029 #AND 22500001 458 521 637 955 22501029 42400223
-    END_GAME_ID = 22501030
-    DATA_DIR = "2025"
+    START_GAME_ID = 22600001 #AND 22500001 458 521 637 955 22501029 42400223
+    END_GAME_ID = 22600003
+    DATA_DIR = "2026"
 
     # Carry over your old known-bad game ID lists here as you rediscover them.
     KNOWN_BAD_GAME_IDS = set()

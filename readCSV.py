@@ -69,7 +69,7 @@ def getYearsWanted(yearsWanted):
                                     playerShots.__setitem__(player, 0)
                                 
                         #add all team lineups only for 2025
-                        if(folder == "2025" or folder == "2025 PLAY"):
+                        if(folder == "2026" or folder == "2026 PRE" or folder == "2026 PLAY"):
                             homeTuple = tuple(homeLineup)
                             awayTuple = tuple(awayLineup)
                             if teamLineups.__contains__(homeTuple):
@@ -278,7 +278,10 @@ def getFirstBasket():
 def getAllBaskets():
     t1Chance = []
     t2Chance = []
-    seasonFolders = ["2025", "2025 PLAY"]
+    seasonFolders = ["2026", "2026 PRE", "2026 PLAY"]
+    if int(years) < 6:
+        seasonFolders.append("2025")
+        seasonFolders.append("2025 PLAY")
     if int(years) < 5:
         seasonFolders.append("2024")
         seasonFolders.append("2024 PLAY")
@@ -390,24 +393,24 @@ def getShooter():
         #print(str(result))
     fbResults.append(result[0:len(result)-5])
 
-years = input('What years would you like? (1 for 2021 onwards, 2 for 2022 onwards, 3 for 2023 onwards, 4 for 2024 onwards, or 5 for 2025 onwards)\n')
+years = input('What years would you like? (1 for 2021 onwards, 2 for 2022 onwards, 3 for 2023 onwards, 4 for 2024 onwards, 5 for 2025 onwards, or 6 for 2026 onwards)\n')
 playoffs = input('Would you like playoffs? (1 for no, 2 for only, 3 for yes)\n')
 yearsWanted = []
 if (int(playoffs) > 2):
     i = int(years)
-    while (i < 6):
+    while (i < 7):
         yearsWanted.append("202" + str(i))
         yearsWanted.append("202" + str(i) + " PLAY")
         yearsWanted.append("202" + str(i) + " PRE")
         i += 1
 elif (int(playoffs) > 1):
     i = int(years)
-    while (i < 6):
+    while (i < 7):
         yearsWanted.append("202" + str(i) + " PLAY")
         i += 1
 else:
     i = int(years)
-    while (i < 6):
+    while (i < 7):
         yearsWanted.append("202" + str(i))
         i += 1
 print(yearsWanted)
