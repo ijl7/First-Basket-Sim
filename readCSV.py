@@ -68,7 +68,7 @@ def getYearsWanted(yearsWanted):
                                     firstBaskets.__setitem__(player, 0)
                                     playerShots.__setitem__(player, 0)
                                 
-                        #add all team lineups only for 2025
+                        #add all team lineups only for 2026
                         if(folder == "2026" or folder == "2026 PRE" or folder == "2026 PLAY"):
                             homeTuple = tuple(homeLineup)
                             awayTuple = tuple(awayLineup)
@@ -413,7 +413,6 @@ else:
     while (i < 7):
         yearsWanted.append("202" + str(i))
         i += 1
-print(yearsWanted)
 getYearsWanted(yearsWanted)
 (tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
 writeTipWinChart()
