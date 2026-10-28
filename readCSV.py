@@ -131,15 +131,14 @@ def getYearsWanted(yearsWanted):
                         else:
                             playerShots.__setitem__(player, 0)
 
-def sortDicts(tipWin, teamLineups, playerTeam):
+def sortDicts(tipWin, teamLineups):
     tipKeys = list(tipWin.keys())
     tipKeys.sort()
     tipWin = {i : tipWin[i] for i in tipKeys}
 
     teamLineups = dict(sorted(teamLineups.items(), key=lambda x:x[1]))
 
-    playerTeam = sorted(playerTeam)
-    return (tipWin, teamLineups, playerTeam)
+    return (tipWin, teamLineups)
 
 
 def writeTipWinChart():
@@ -323,11 +322,12 @@ def getAllBaskets():
                             j += 1
                         if useLine:
                             #only add if the player you want is shooting
-                            if line1.__contains__(row['player1_name']):
+                            shooter = replaceaccents.replace_accents_characters(row['player1_name'])
+                            if line1.__contains__(shooter):
                                 if row['eventmsgtype'] == '2':
-                                    t1Chance.append(row['player1_name'] + ' Miss')
+                                    t1Chance.append(shooter + ' Miss')
                                 elif row['eventmsgtype'] == '1':
-                                    t1Chance.append(row['player1_name'] + ' Make')
+                                    t1Chance.append(shooter + ' Make')
                         useLine = True
                         j = 0
                         while j < 5:
@@ -341,11 +341,12 @@ def getAllBaskets():
                             j += 1
                         if useLine:
                             #only add if the player you want is shooting
-                            if line2.__contains__(row['player1_name']):
+                            shooter = replaceaccents.replace_accents_characters(row['player1_name'])
+                            if line2.__contains__(shooter):
                                 if row['eventmsgtype'] == '2':
-                                    t2Chance.append(row['player1_name'] + ' Miss')
+                                    t2Chance.append(shooter + ' Miss')
                                 elif row['eventmsgtype'] == '1':
-                                    t2Chance.append(row['player1_name'] + ' Make')
+                                    t2Chance.append(shooter + ' Make')
     return (t1Chance, t2Chance)
 
 def getTeamBaskets():
@@ -414,7 +415,7 @@ else:
         yearsWanted.append("202" + str(i))
         i += 1
 getYearsWanted(yearsWanted)
-(tipWin, teamLineups, playerTeam) = sortDicts(tipWin, teamLineups, playerTeam)
+(tipWin, teamLineups) = sortDicts(tipWin, teamLineups)
 writeTipWinChart()
 writeLineupChart()
 writeFBChart()
